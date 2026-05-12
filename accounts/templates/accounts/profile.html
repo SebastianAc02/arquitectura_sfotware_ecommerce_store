@@ -64,10 +64,11 @@
                 </fieldset>
                 {% endfor %}
 
-                <div class="flex gap-3 mt-6">
+                <div class="flex gap-3 mt-6 flex-wrap">
                     <button type="submit" class="btn font-semibold px-6" style="background:#3b3028; color:white;">
                         Guardar cambios
                     </button>
+                    <a href="{% url 'accounts:mascota_list' %}" class="btn btn-outline btn-sm self-center">Mis mascotas 🐾</a>
                     {% if profile.is_admin %}
                     <a href="{% url 'admin_panel:dashboard' %}" class="btn btn-ghost">Ir al panel</a>
                     {% endif %}

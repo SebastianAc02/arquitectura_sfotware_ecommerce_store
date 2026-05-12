@@ -1,0 +1,26 @@
+{% extends 'base_public.html' %}
+{% block title %}Eliminar mascota — Kibo{% endblock %}
+
+{% block content %}
+<div class="flex justify-center">
+    <div class="card bg-base-100 shadow-md w-full max-w-md border border-error/20">
+        <div class="card-body p-8">
+            <h2 class="card-title text-xl font-bold text-error mb-2">¿Eliminar mascota?</h2>
+            <p class="text-base-content/60 text-sm mb-6">Esta acción no se puede deshacer.</p>
+
+            <div class="bg-base-200 rounded-xl p-4 mb-6">
+                <p class="font-semibold">{{ mascota.nombre }}</p>
+                <p class="text-sm text-base-content/50 mt-1">{{ mascota.get_tipo_display }}{% if mascota.raza %} · {{ mascota.raza }}{% endif %}</p>
+            </div>
+
+            <form method="post">
+                {% csrf_token %}
+                <div class="flex gap-3">
+                    <button type="submit" class="btn btn-error font-semibold px-6">Sí, eliminar</button>
+                    <a href="{% url 'accounts:mascota_list' %}" class="btn btn-ghost">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

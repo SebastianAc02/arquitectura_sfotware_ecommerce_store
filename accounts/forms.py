@@ -5,7 +5,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
-from .models import UserProfile
+from .models import Mascota, UserProfile
 
 
 class RegisterForm(UserCreationForm):
@@ -32,3 +32,18 @@ class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ['phone', 'address']
+
+
+class MascotaForm(forms.ModelForm):
+    """Formulario para registrar o editar una mascota del usuario."""
+
+    class Meta:
+        model = Mascota
+        fields = ['nombre', 'tipo', 'raza', 'edad', 'peso']
+        widgets = {
+            'nombre': forms.TextInput(attrs={'class': 'input input-bordered w-full'}),
+            'tipo': forms.Select(attrs={'class': 'select select-bordered w-full'}),
+            'raza': forms.TextInput(attrs={'class': 'input input-bordered w-full'}),
+            'edad': forms.NumberInput(attrs={'class': 'input input-bordered w-full', 'min': 0}),
+            'peso': forms.NumberInput(attrs={'class': 'input input-bordered w-full', 'min': 0, 'step': '0.1'}),
+        }

@@ -1,15 +1,15 @@
 # Author: Equipo Kibo
-# Vistas del dominio AUTH — login, logout, registro, perfil
+# Vistas del dominio AUTH — login, logout, registro, perfil, mascotas
 
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 
-from .forms import ProfileUpdateForm, RegisterForm, UserUpdateForm
-from .models import UserProfile
+from .forms import MascotaForm, ProfileUpdateForm, RegisterForm, UserUpdateForm
+from .models import Mascota, UserProfile
 
 
 def register_view(request):
@@ -21,7 +21,6 @@ def register_view(request):
         form = RegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
-            # Signal crea profile; reforzamos existencia por seguridad
             UserProfile.objects.get_or_create(user=user)
             login(request, user)
             messages.success(request, 'Cuenta creada correctamente. ¡Bienvenido a Kibo!')
@@ -43,7 +42,6 @@ def login_view(request):
         login(request, user)
         messages.success(request, f'Bienvenido, {user.username}.')
 
-        # Si es admin del dominio, enviarlo al panel custom
         is_domain_admin = UserProfile.objects.filter(user=user, is_admin=True).exists()
         if is_domain_admin:
             return redirect('admin_panel:dashboard')
@@ -88,3 +86,66 @@ def profile_view(request):
             'profile': profile,
         },
     )
+
+
+# ─────────────────────────────────────────────
+# MASCOTAS
+# ─────────────────────────────────────────────
+
+@login_required
+def mascota_list(request):
+    """Lista de mascotas registradas por el usuario."""
+    mascotas = Mascota.objects.filter(user=request.user)
+    return render(request, 'accounts/mascota_list.html', {'mascotas': mascotas})
+
+
+@login_required
+def mascota_create(request):
+    """Registrar una nueva mascota para el usuario."""
+    if request.method == 'POST':
+        form = MascotaForm(request.POST)
+        if form.is_valid():
+            mascota = form.save(commit=False)
+            mascota.user = request.user
+            mascota.save()
+            messages.success(request, f'"{mascota.nombre}" ha sido registrada.')
+            return redirect('accounts:mascota_list')
+    else:
+        form = MascotaForm()
+
+    return render(request, 'accounts/mascota_form.html', {'form': form, 'action': 'Agregar'})
+
+
+@login_required
+def mascota_edit(request, pk):
+    """Editar los datos de una mascota existente."""
+    mascota = get_object_or_404(Mascota, pk=pk, user=request.user)
+
+    if request.method == 'POST':
+        form = MascotaForm(request.POST, instance=mascota)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f'"{mascota.nombre}" ha sido actualizada.')
+            return redirect('accounts:mascota_list')
+    else:
+        form = MascotaForm(instance=mascota)
+
+    return render(request, 'accounts/mascota_form.html', {
+        'form': form,
+        'action': 'Editar',
+        'mascota': mascota,
+    })
+
+
+@login_required
+def mascota_delete(request, pk):
+    """Eliminar una mascota del usuario (POST confirma)."""
+    mascota = get_object_or_404(Mascota, pk=pk, user=request.user)
+
+    if request.method == 'POST':
+        nombre = mascota.nombre
+        mascota.delete()
+        messages.info(request, f'"{nombre}" ha sido eliminada.')
+        return redirect('accounts:mascota_list')
+
+    return render(request, 'accounts/mascota_confirm_delete.html', {'mascota': mascota})

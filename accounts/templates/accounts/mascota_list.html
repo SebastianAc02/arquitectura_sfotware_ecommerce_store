@@ -1,0 +1,61 @@
+{% extends 'base_public.html' %}
+{% block title %}Mis mascotas — Kibo{% endblock %}
+
+{% block content %}
+<div class="mb-6 flex items-center justify-between">
+    <div>
+        <h1 class="text-2xl font-bold" style="color:#3b3028;">Mis mascotas</h1>
+        <p class="text-base-content/60 mt-1">Gestiona los perfiles de tus animales.</p>
+    </div>
+    <div class="flex gap-2">
+        <a href="{% url 'accounts:profile' %}" class="btn btn-ghost btn-sm">← Perfil</a>
+        <a href="{% url 'accounts:mascota_create' %}" class="btn btn-warning btn-sm font-semibold">+ Agregar mascota</a>
+    </div>
+</div>
+
+{% if mascotas %}
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    {% for mascota in mascotas %}
+    <div class="card bg-base-100 shadow-sm">
+        <div class="card-body p-5">
+            <div class="flex items-start justify-between">
+                <div>
+                    <h2 class="card-title text-lg">{{ mascota.nombre }}</h2>
+                    <p class="text-sm text-base-content/60">{{ mascota.get_tipo_display }}</p>
+                </div>
+                <span class="badge badge-outline">
+                    {% if mascota.tipo == 'perro' %}🐶
+                    {% elif mascota.tipo == 'gato' %}🐱
+                    {% elif mascota.tipo == 'ave' %}🐦
+                    {% else %}🐾
+                    {% endif %}
+                </span>
+            </div>
+
+            <div class="text-sm text-base-content/70 mt-2 space-y-1">
+                {% if mascota.raza %}
+                <p>Raza: <span class="font-medium">{{ mascota.raza }}</span></p>
+                {% endif %}
+                <p>Edad: <span class="font-medium">{{ mascota.edad }} año{{ mascota.edad|pluralize }}</span></p>
+                <p>Peso: <span class="font-medium">{{ mascota.peso }} kg</span></p>
+            </div>
+
+            <div class="flex gap-2 mt-4">
+                <a href="{% url 'accounts:mascota_edit' mascota.pk %}" class="btn btn-ghost btn-xs">Editar</a>
+                <a href="{% url 'accounts:mascota_delete' mascota.pk %}" class="btn btn-ghost btn-xs text-error">Eliminar</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% else %}
+<div class="card bg-base-100 shadow-sm">
+    <div class="card-body text-center py-20">
+        <span class="text-6xl mb-4">🐾</span>
+        <p class="text-xl font-medium text-base-content/50">Aún no tienes mascotas registradas</p>
+        <a href="{% url 'accounts:mascota_create' %}" class="btn btn-warning mt-4 px-8">Registrar mi primera mascota</a>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

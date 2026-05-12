@@ -11,7 +11,10 @@ urlpatterns = [
     # Django admin built-in (distinto del admin_panel custom)
     path('django-admin/', admin.site.urls),
 
-    # App: accounts — login, logout, registro, perfil
+    # i18n: selector de idioma (/i18n/setlang/)
+    path('i18n/', include('django.conf.urls.i18n')),
+
+    # App: accounts — login, logout, registro, perfil, mascotas
     path('accounts/', include('accounts.urls')),
 
     # App: store — catalogo, carrito, checkout (raiz del sitio)

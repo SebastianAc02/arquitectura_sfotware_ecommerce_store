@@ -119,6 +119,29 @@
             </div>
         </div>
         {% endif %}
+
+        {% if products.has_other_pages %}
+        <div class="flex justify-center mt-6">
+            <div class="join">
+                {% if products.has_previous %}
+                <a href="?page={{ products.previous_page_number }}&categoria={{ selected_categoria }}&tipo={{ selected_tipo }}&precio_min={{ selected_precio_min }}&precio_max={{ selected_precio_max }}"
+                   class="join-item btn btn-sm">«</a>
+                {% endif %}
+                {% for num in products.paginator.page_range %}
+                    {% if products.number == num %}
+                    <button class="join-item btn btn-sm btn-active" style="background:#3b3028; color:white;">{{ num }}</button>
+                    {% elif num > products.number|add:'-3' and num < products.number|add:'3' %}
+                    <a href="?page={{ num }}&categoria={{ selected_categoria }}&tipo={{ selected_tipo }}&precio_min={{ selected_precio_min }}&precio_max={{ selected_precio_max }}"
+                       class="join-item btn btn-sm">{{ num }}</a>
+                    {% endif %}
+                {% endfor %}
+                {% if products.has_next %}
+                <a href="?page={{ products.next_page_number }}&categoria={{ selected_categoria }}&tipo={{ selected_tipo }}&precio_min={{ selected_precio_min }}&precio_max={{ selected_precio_max }}"
+                   class="join-item btn btn-sm">»</a>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
     </section>
 </div>
 {% endblock %}

@@ -1,0 +1,66 @@
+# Spanish translations for Kibo Pet Shop (default language)
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: es\n"
+
+msgid "Catálogo de productos"
+msgstr "Catálogo de productos"
+
+msgid "Carrito"
+msgstr "Carrito"
+
+msgid "Mis órdenes"
+msgstr "Mis órdenes"
+
+msgid "Mi perfil"
+msgstr "Mi perfil"
+
+msgid "Iniciar sesión"
+msgstr "Iniciar sesión"
+
+msgid "Registrarse"
+msgstr "Registrarse"
+
+msgid "Cerrar sesión"
+msgstr "Cerrar sesión"
+
+msgid "Inicio"
+msgstr "Inicio"
+
+msgid "Agregar al carrito"
+msgstr "Agregar al carrito"
+
+msgid "Ver detalle"
+msgstr "Ver detalle"
+
+msgid "Filtros"
+msgstr "Filtros"
+
+msgid "Categoría"
+msgstr "Categoría"
+
+msgid "Tipo de mascota"
+msgstr "Tipo de mascota"
+
+msgid "Precio min"
+msgstr "Precio min"
+
+msgid "Precio max"
+msgstr "Precio max"
+
+msgid "Guardar cambios"
+msgstr "Guardar cambios"
+
+msgid "Mis mascotas"
+msgstr "Mis mascotas"
+
+msgid "Agregar mascota"
+msgstr "Agregar mascota"
+
+msgid "Checkout"
+msgstr "Checkout"
+
+msgid "¡Orden creada exitosamente!"
+msgstr "¡Orden creada exitosamente!"

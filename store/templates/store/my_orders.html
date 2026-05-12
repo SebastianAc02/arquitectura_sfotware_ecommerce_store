@@ -49,6 +49,27 @@
         </div>
     </div>
     {% endfor %}
+</div>
+
+{% if orders.has_other_pages %}
+<div class="flex justify-center mt-6">
+    <div class="join">
+        {% if orders.has_previous %}
+        <a href="?page={{ orders.previous_page_number }}" class="join-item btn btn-sm">«</a>
+        {% endif %}
+        {% for num in orders.paginator.page_range %}
+            {% if orders.number == num %}
+            <button class="join-item btn btn-sm btn-active" style="background:#3b3028; color:white;">{{ num }}</button>
+            {% elif num > orders.number|add:'-3' and num < orders.number|add:'3' %}
+            <a href="?page={{ num }}" class="join-item btn btn-sm">{{ num }}</a>
+            {% endif %}
+        {% endfor %}
+        {% if orders.has_next %}
+        <a href="?page={{ orders.next_page_number }}" class="join-item btn btn-sm">»</a>
+        {% endif %}
+    </div>
+</div>
+{% endif %}
 
 {% else %}
 <div class="card bg-base-100 shadow-sm">

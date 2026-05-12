@@ -96,7 +96,19 @@
     </main>
 
     <footer class="footer footer-center p-4 mt-8" style="background:#3b3028; color:rgba(255,255,255,0.5);">
-        <p class="text-sm">Kibo Pet Shop © 2026 — Arquitectura de Software SI3001</p>
+        <div class="flex items-center gap-4">
+            <p class="text-sm">Kibo Pet Shop © 2026</p>
+            {% load i18n %}
+            <form action="{% url 'set_language' %}" method="post" class="flex items-center gap-1">
+                {% csrf_token %}
+                <input name="next" type="hidden" value="{{ request.path }}">
+                <select name="language" onchange="this.form.submit()"
+                        class="select select-xs select-ghost text-white/60 bg-transparent border-white/20">
+                    <option value="es" {% if request.LANGUAGE_CODE == 'es' %}selected{% endif %}>ES</option>
+                    <option value="en" {% if request.LANGUAGE_CODE == 'en' %}selected{% endif %}>EN</option>
+                </select>
+            </form>
+        </div>
     </footer>
 
 </body>

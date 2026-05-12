@@ -1,0 +1,59 @@
+{% extends 'base_public.html' %}
+{% block title %}{{ action }} mascota — Kibo{% endblock %}
+
+{% block content %}
+<div class="flex justify-center">
+    <div class="card bg-base-100 shadow-md w-full max-w-lg">
+        <div class="card-body p-8">
+            <div class="mb-6">
+                <h2 class="card-title text-2xl font-bold" style="color:#3b3028;">{{ action }} mascota</h2>
+                {% if mascota %}
+                <p class="text-base-content/50 text-sm mt-1">Editando: {{ mascota.nombre }}</p>
+                {% else %}
+                <p class="text-base-content/50 text-sm mt-1">Registra a tu compañero en Kibo.</p>
+                {% endif %}
+            </div>
+
+            <form method="post" novalidate>
+                {% csrf_token %}
+                {% for field in form %}
+                <fieldset class="fieldset mb-4">
+                    <legend class="fieldset-legend text-sm font-semibold">{{ field.label }}</legend>
+                    {% if 'Select' in field.field.widget.__class__.__name__ %}
+                    <select name="{{ field.html_name }}" id="{{ field.id_for_label }}"
+                            class="select select-bordered w-full {% if field.errors %}select-error{% endif %}">
+                        {% for val, label in field.field.choices %}
+                        <option value="{{ val }}" {% if field.value|stringformat:'s' == val %}selected{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                    {% else %}
+                    <input
+                        type="{{ field.field.widget.input_type }}"
+                        name="{{ field.html_name }}"
+                        id="{{ field.id_for_label }}"
+                        class="input input-bordered w-full {% if field.errors %}input-error{% endif %}"
+                        {% if field.value %}value="{{ field.value }}"{% endif %}
+                        {% if field.field.widget.attrs.step %}step="{{ field.field.widget.attrs.step }}"{% endif %}
+                        {% if field.field.widget.attrs.min is not None %}min="{{ field.field.widget.attrs.min }}"{% endif %}
+                    >
+                    {% endif %}
+                    {% if field.help_text %}
+                    <p class="text-xs text-base-content/40 mt-1">{{ field.help_text }}</p>
+                    {% endif %}
+                    {% for error in field.errors %}
+                    <p class="text-error text-xs mt-1">{{ error }}</p>
+                    {% endfor %}
+                </fieldset>
+                {% endfor %}
+
+                <div class="flex gap-3 mt-6">
+                    <button type="submit" class="btn font-semibold px-6" style="background:#3b3028; color:white;">
+                        {{ action }}
+                    </button>
+                    <a href="{% url 'accounts:mascota_list' %}" class="btn btn-ghost">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
