@@ -1,16 +1,17 @@
 {% extends 'base_public.html' %}
-{% block title %}{{ action }} mascota — Kibo{% endblock %}
+{% load i18n %}
+{% block title %}{{ action }} {% trans "mascota" %} — Kibo{% endblock %}
 
 {% block content %}
 <div class="flex justify-center">
     <div class="card bg-base-100 shadow-md w-full max-w-lg">
         <div class="card-body p-8">
             <div class="mb-6">
-                <h2 class="card-title text-2xl font-bold" style="color:#3b3028;">{{ action }} mascota</h2>
+                <h2 class="card-title text-2xl font-bold" style="color:#3b3028;">{{ action }} {% trans "mascota" %}</h2>
                 {% if mascota %}
-                <p class="text-base-content/50 text-sm mt-1">Editando: {{ mascota.nombre }}</p>
+                <p class="text-base-content/50 text-sm mt-1">{% trans "Editando:" %} {{ mascota.nombre }}</p>
                 {% else %}
-                <p class="text-base-content/50 text-sm mt-1">Registra a tu compañero en Kibo.</p>
+                <p class="text-base-content/50 text-sm mt-1">{% trans "Registra a tu compañero en Kibo." %}</p>
                 {% endif %}
             </div>
 
@@ -50,7 +51,7 @@
                     <button type="submit" class="btn font-semibold px-6" style="background:#3b3028; color:white;">
                         {{ action }}
                     </button>
-                    <a href="{% url 'accounts:mascota_list' %}" class="btn btn-ghost">Cancelar</a>
+                    <a href="{% url 'accounts:mascota_list' %}" class="btn btn-ghost">{% trans "Cancelar" %}</a>
                 </div>
             </form>
         </div>

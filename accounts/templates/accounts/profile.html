@@ -1,5 +1,6 @@
 {% extends 'base_public.html' %}
-{% block title %}Mi perfil — Kibo{% endblock %}
+{% load i18n %}
+{% block title %}{% trans "Mi perfil" %} — Kibo{% endblock %}
 
 {% block content %}
 <div class="flex justify-center">
@@ -7,20 +8,20 @@
         <div class="card-body p-8">
             <div class="flex justify-between items-start mb-6">
                 <div>
-                    <h2 class="card-title text-2xl font-bold" style="color:#3b3028;">Mi perfil</h2>
-                    <p class="text-base-content/50 text-sm mt-1">Actualiza tus datos de cuenta y contacto.</p>
+                    <h2 class="card-title text-2xl font-bold" style="color:#3b3028;">{% trans "Mi perfil" %}</h2>
+                    <p class="text-base-content/50 text-sm mt-1">{% trans "Actualiza tus datos de cuenta y contacto." %}</p>
                 </div>
                 {% if profile.is_admin %}
-                <span class="badge badge-lg" style="background:#3b3028; color:white;">Administrador</span>
+                <span class="badge badge-lg" style="background:#3b3028; color:white;">{% trans "Administrador" %}</span>
                 {% else %}
-                <span class="badge badge-lg badge-warning">Cliente</span>
+                <span class="badge badge-lg badge-warning">{% trans "Cliente" %}</span>
                 {% endif %}
             </div>
 
             <form method="post" novalidate>
                 {% csrf_token %}
 
-                <p class="text-xs font-semibold uppercase tracking-widest text-base-content/40 mb-4">Datos de cuenta</p>
+                <p class="text-xs font-semibold uppercase tracking-widest text-base-content/40 mb-4">{% trans "Datos de cuenta" %}</p>
                 {% for field in user_form %}
                 <fieldset class="fieldset mb-4">
                     <legend class="fieldset-legend text-sm font-semibold">{{ field.label }}</legend>
@@ -39,7 +40,7 @@
 
                 <div class="divider my-6"></div>
 
-                <p class="text-xs font-semibold uppercase tracking-widest text-base-content/40 mb-4">Datos de perfil</p>
+                <p class="text-xs font-semibold uppercase tracking-widest text-base-content/40 mb-4">{% trans "Datos de perfil" %}</p>
                 {% for field in profile_form %}
                 <fieldset class="fieldset mb-4">
                     <legend class="fieldset-legend text-sm font-semibold">{{ field.label }}</legend>
@@ -66,11 +67,11 @@
 
                 <div class="flex gap-3 mt-6 flex-wrap">
                     <button type="submit" class="btn font-semibold px-6" style="background:#3b3028; color:white;">
-                        Guardar cambios
+                        {% trans "Guardar cambios" %}
                     </button>
-                    <a href="{% url 'accounts:mascota_list' %}" class="btn btn-outline btn-sm self-center">Mis mascotas 🐾</a>
+                    <a href="{% url 'accounts:mascota_list' %}" class="btn btn-outline btn-sm self-center">{% trans "Mis mascotas" %} 🐾</a>
                     {% if profile.is_admin %}
-                    <a href="{% url 'admin_panel:dashboard' %}" class="btn btn-ghost">Ir al panel</a>
+                    <a href="{% url 'admin_panel:dashboard' %}" class="btn btn-ghost">{% trans "Ir al panel" %}</a>
                     {% endif %}
                 </div>
             </form>

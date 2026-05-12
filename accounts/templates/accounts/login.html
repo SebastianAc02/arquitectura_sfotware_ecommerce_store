@@ -1,12 +1,13 @@
 {% extends 'base_public.html' %}
-{% block title %}Iniciar sesión — Kibo{% endblock %}
+{% load i18n %}
+{% block title %}{% trans "Iniciar sesión" %} — Kibo{% endblock %}
 
 {% block content %}
 <div class="flex justify-center">
     <div class="card bg-base-100 shadow-md w-full max-w-md">
         <div class="card-body p-8">
-            <h2 class="card-title text-2xl font-bold mb-1" style="color:#3b3028;">Iniciar sesión</h2>
-            <p class="text-base-content/50 text-sm mb-6">Accede a tu cuenta de Kibo.</p>
+            <h2 class="card-title text-2xl font-bold mb-1" style="color:#3b3028;">{% trans "Iniciar sesión" %}</h2>
+            <p class="text-base-content/50 text-sm mb-6">{% trans "Accede a tu cuenta de Kibo." %}</p>
 
             <form method="post" novalidate>
                 {% csrf_token %}
@@ -33,13 +34,13 @@
                 {% endif %}
 
                 <button type="submit" class="btn w-full mt-2 font-semibold" style="background:#3b3028; color:white;">
-                    Entrar
+                    {% trans "Entrar" %}
                 </button>
             </form>
 
             <p class="text-center text-sm text-base-content/50 mt-4">
-                ¿No tienes cuenta?
-                <a href="{% url 'accounts:register' %}" class="font-semibold" style="color:#3b3028;">Regístrate aquí</a>
+                {% trans "¿No tienes cuenta?" %}
+                <a href="{% url 'accounts:register' %}" class="font-semibold" style="color:#3b3028;">{% trans "Regístrate aquí" %}</a>
             </p>
         </div>
     </div>

@@ -1,39 +1,85 @@
-# English translations for Kibo Pet Shop
+# Kibo Pet Shop — English translations
+# Copyright (C) 2026 Equipo Kibo
+#
 msgid ""
 msgstr ""
+"Project-Id-Version: Kibo 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-11 00:00+0000\n"
+"PO-Revision-Date: 2026-05-11 00:00+0000\n"
+"Last-Translator: Equipo Kibo\n"
+"Language-Team: English\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: en\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-msgid "Catálogo de productos"
-msgstr "Product Catalog"
+# ── Navigation ───────────────────────────────────────────────────────────────
+msgid "Inicio"
+msgstr "Home"
+
+msgid "Catálogo"
+msgstr "Catalog"
 
 msgid "Carrito"
 msgstr "Cart"
 
 msgid "Mis órdenes"
-msgstr "My Orders"
+msgstr "My orders"
 
 msgid "Mi perfil"
-msgstr "My Profile"
+msgstr "My profile"
 
-msgid "Iniciar sesión"
-msgstr "Log In"
+msgid "Panel admin"
+msgstr "Admin panel"
 
-msgid "Registrarse"
-msgstr "Sign Up"
+msgid "Panel"
+msgstr "Panel"
 
 msgid "Cerrar sesión"
-msgstr "Log Out"
+msgstr "Log out"
 
-msgid "Inicio"
-msgstr "Home"
+msgid "Iniciar sesión"
+msgstr "Log in"
 
-msgid "Agregar al carrito"
-msgstr "Add to Cart"
+msgid "Registrarse"
+msgstr "Sign up"
 
-msgid "Ver detalle"
-msgstr "View Detail"
+msgid "Salir"
+msgstr "Sign out"
+
+# ── Home ─────────────────────────────────────────────────────────────────────
+msgid "Bienvenido a Kibo"
+msgstr "Welcome to Kibo"
+
+msgid "Todo lo que tu mascota necesita, en un solo lugar."
+msgstr "Everything your pet needs, in one place."
+
+msgid "Explorar catálogo"
+msgstr "Explore catalog"
+
+msgid "Categorías"
+msgstr "Categories"
+
+msgid "Productos destacados"
+msgstr "Featured products"
+
+msgid "Sin imagen"
+msgstr "No image"
+
+msgid "Ver"
+msgstr "View"
+
+msgid "No hay productos disponibles por el momento."
+msgstr "No products available at the moment."
+
+# ── Catalog ──────────────────────────────────────────────────────────────────
+msgid "Catálogo de productos"
+msgstr "Product catalog"
+
+msgid "Explora productos y aplica filtros por categoría, precio y tipo de mascota."
+msgstr "Browse products and apply filters by category, price and pet type."
 
 msgid "Filtros"
 msgstr "Filters"
@@ -41,26 +87,481 @@ msgstr "Filters"
 msgid "Categoría"
 msgstr "Category"
 
+msgid "Todas"
+msgstr "All"
+
 msgid "Tipo de mascota"
-msgstr "Pet Type"
+msgstr "Pet type"
+
+msgid "Todos"
+msgstr "All"
+
+msgid "Perro"
+msgstr "Dog"
+
+msgid "Gato"
+msgstr "Cat"
+
+msgid "Ave"
+msgstr "Bird"
+
+msgid "Otro"
+msgstr "Other"
+
+msgid "Multi-especie"
+msgstr "Multi-species"
 
 msgid "Precio min"
-msgstr "Min Price"
+msgstr "Min price"
 
 msgid "Precio max"
-msgstr "Max Price"
+msgstr "Max price"
 
-msgid "Guardar cambios"
-msgstr "Save Changes"
+msgid "Aplicar"
+msgstr "Apply"
 
-msgid "Mis mascotas"
-msgstr "My Pets"
+msgid "Limpiar"
+msgstr "Clear"
 
-msgid "Agregar mascota"
-msgstr "Add Pet"
+msgid "En wishlist"
+msgstr "In wishlist"
 
+msgid "Wishlist"
+msgstr "Wishlist"
+
+msgid "Ver detalle"
+msgstr "View detail"
+
+msgid "Top vendido"
+msgstr "Best seller"
+
+msgid "Stock:"
+msgstr "Stock:"
+
+msgid "Sin stock"
+msgstr "Out of stock"
+
+msgid "Producto para tu mascota."
+msgstr "Product for your pet."
+
+msgid "No se encontraron productos con esos filtros."
+msgstr "No products found with those filters."
+
+msgid "Limpiar filtros"
+msgstr "Clear filters"
+
+# ── Cart ─────────────────────────────────────────────────────────────────────
+msgid "Mi carrito"
+msgstr "My cart"
+
+msgid "Seguir comprando"
+msgstr "Continue shopping"
+
+msgid "Resumen"
+msgstr "Summary"
+
+msgid "Total"
+msgstr "Total"
+
+msgid "Proceder al pago"
+msgstr "Proceed to checkout"
+
+msgid "Tu carrito está vacío"
+msgstr "Your cart is empty"
+
+msgid "Explorar productos"
+msgstr "Browse products"
+
+# ── Checkout ─────────────────────────────────────────────────────────────────
 msgid "Checkout"
 msgstr "Checkout"
 
+msgid "Revisa tu pedido y confirma la compra."
+msgstr "Review your order and confirm your purchase."
+
+msgid "Datos de envío"
+msgstr "Shipping details"
+
+msgid "Dirección de envío"
+msgstr "Shipping address"
+
+msgid "Calle, número, ciudad, departamento..."
+msgstr "Street, number, city, department..."
+
+msgid "Método de pago"
+msgstr "Payment method"
+
+msgid "* Entorno de demostración — no se procesará ningún cobro real."
+msgstr "* Demo environment — no real payment will be processed."
+
+msgid "Confirmar orden"
+msgstr "Confirm order"
+
+msgid "Tu pedido (%(count)s producto)"
+msgid_plural "Tu pedido (%(count)s productos)"
+msgstr[0] "Your order (%(count)s product)"
+msgstr[1] "Your order (%(count)s products)"
+
+# ── Product detail ────────────────────────────────────────────────────────────
+msgid "Sin descripción."
+msgstr "No description."
+
+msgid "Tipo:"
+msgstr "Type:"
+
+msgid "Etapa:"
+msgstr "Stage:"
+
+msgid "Agregar al carrito"
+msgstr "Add to cart"
+
+msgid "Agregar a wishlist"
+msgstr "Add to wishlist"
+
+msgid "Reseñas"
+msgstr "Reviews"
+
+msgid "Aún no hay reseñas para este producto."
+msgstr "No reviews yet for this product."
+
+msgid "También te puede interesar"
+msgstr "You might also like"
+
+msgid "No hay recomendaciones disponibles por ahora."
+msgstr "No recommendations available right now."
+
+# ── My orders ────────────────────────────────────────────────────────────────
+msgid "Orden"
+msgstr "Order"
+
+msgid "Envío a:"
+msgstr "Shipping to:"
+
+msgid "Aún no tienes órdenes"
+msgstr "You don't have any orders yet"
+
+# ── Order confirmation ────────────────────────────────────────────────────────
+msgid "Orden confirmada"
+msgstr "Order confirmed"
+
+msgid "¡Orden confirmada!"
+msgstr "Order confirmed!"
+
+msgid "recibida el"
+msgstr "received on"
+
+msgid "Resumen del pedido"
+msgstr "Order summary"
+
+msgid "Dirección:"
+msgstr "Address:"
+
+msgid "Método de pago:"
+msgstr "Payment method:"
+
+msgid "Estado:"
+msgstr "Status:"
+
+# ── Login / Register ──────────────────────────────────────────────────────────
+msgid "Accede a tu cuenta de Kibo."
+msgstr "Access your Kibo account."
+
+msgid "Entrar"
+msgstr "Sign in"
+
+msgid "¿No tienes cuenta?"
+msgstr "Don't have an account?"
+
+msgid "Regístrate aquí"
+msgstr "Sign up here"
+
+msgid "Registro"
+msgstr "Register"
+
+msgid "Crear cuenta"
+msgstr "Create account"
+
+msgid "Regístrate para comprar y gestionar tu perfil."
+msgstr "Sign up to shop and manage your profile."
+
+msgid "¿Ya tienes cuenta?"
+msgstr "Already have an account?"
+
+msgid "Inicia sesión"
+msgstr "Log in"
+
+# ── Profile ───────────────────────────────────────────────────────────────────
+msgid "Actualiza tus datos de cuenta y contacto."
+msgstr "Update your account and contact details."
+
+msgid "Administrador"
+msgstr "Administrator"
+
+msgid "Cliente"
+msgstr "Customer"
+
+msgid "Datos de cuenta"
+msgstr "Account details"
+
+msgid "Datos de perfil"
+msgstr "Profile details"
+
+msgid "Guardar cambios"
+msgstr "Save changes"
+
+msgid "Mis mascotas"
+msgstr "My pets"
+
+msgid "Ir al panel"
+msgstr "Go to panel"
+
+# ── Pets (mascotas) ───────────────────────────────────────────────────────────
+msgid "Gestiona los perfiles de tus animales."
+msgstr "Manage your pets' profiles."
+
+msgid "Perfil"
+msgstr "Profile"
+
+msgid "Agregar mascota"
+msgstr "Add pet"
+
+msgid "Raza:"
+msgstr "Breed:"
+
+msgid "Edad:"
+msgstr "Age:"
+
+msgid "%(edad)s año"
+msgid_plural "%(edad)s años"
+msgstr[0] "%(edad)s year"
+msgstr[1] "%(edad)s years"
+
+msgid "Peso:"
+msgstr "Weight:"
+
+msgid "Editar"
+msgstr "Edit"
+
+msgid "Eliminar"
+msgstr "Delete"
+
+msgid "Aún no tienes mascotas registradas"
+msgstr "You don't have any pets registered yet"
+
+msgid "Registrar mi primera mascota"
+msgstr "Register my first pet"
+
+msgid "mascota"
+msgstr "pet"
+
+msgid "Registra a tu compañero en Kibo."
+msgstr "Register your companion in Kibo."
+
+msgid "Editando:"
+msgstr "Editing:"
+
+msgid "Cancelar"
+msgstr "Cancel"
+
+msgid "¿Eliminar mascota?"
+msgstr "Delete pet?"
+
+msgid "Esta acción no se puede deshacer."
+msgstr "This action cannot be undone."
+
+msgid "Sí, eliminar"
+msgstr "Yes, delete"
+
+msgid "Eliminar mascota"
+msgstr "Delete pet"
+
+# ── Admin Dashboard ───────────────────────────────────────────────────────────
+msgid "Total productos"
+msgstr "Total products"
+
+msgid "Productos activos"
+msgstr "Active products"
+
+msgid "Total órdenes"
+msgstr "Total orders"
+
+msgid "Órdenes pendientes"
+msgstr "Pending orders"
+
+msgid "Ventas acumuladas"
+msgstr "Total sales"
+
+msgid "Top productos vendidos"
+msgstr "Top selling products"
+
+msgid "Top productos comentados"
+msgstr "Top reviewed products"
+
+msgid "uds."
+msgstr "units"
+
+msgid "reseñas"
+msgstr "reviews"
+
+msgid "Sin datos aún."
+msgstr "No data yet."
+
+# ── Admin Products ────────────────────────────────────────────────────────────
+msgid "%(count)s producto registrado"
+msgid_plural "%(count)s productos registrados"
+msgstr[0] "%(count)s product registered"
+msgstr[1] "%(count)s products registered"
+
+msgid "Nuevo producto"
+msgstr "New product"
+
+msgid "Nombre"
+msgstr "Name"
+
+msgid "Precio"
+msgstr "Price"
+
+msgid "Estado"
+msgstr "Status"
+
+msgid "Activo"
+msgstr "Active"
+
+msgid "Inactivo"
+msgstr "Inactive"
+
+msgid "No hay productos creados."
+msgstr "No products created."
+
+msgid "Editar producto"
+msgstr "Edit product"
+
+msgid "Editar:"
+msgstr "Edit:"
+
+msgid "Guardar"
+msgstr "Save"
+
+msgid "Confirmar eliminación"
+msgstr "Confirm deletion"
+
+msgid "Advertencia"
+msgstr "Warning"
+
+msgid "¿Eliminar producto?"
+msgstr "Delete product?"
+
+msgid "Eliminar producto"
+msgstr "Delete product"
+
+# ── Admin Orders ──────────────────────────────────────────────────────────────
+msgid "Órdenes"
+msgstr "Orders"
+
+msgid "Usuario"
+msgstr "User"
+
+msgid "Fecha"
+msgstr "Date"
+
+msgid "Productos"
+msgstr "Products"
+
+msgid "Sin items"
+msgstr "No items"
+
+msgid "No hay órdenes registradas."
+msgstr "No orders registered."
+
+# ── Admin Sidebar ─────────────────────────────────────────────────────────────
+msgid "Ver tienda"
+msgstr "View store"
+
+# ── Flash messages (views.py) ─────────────────────────────────────────────────
+msgid "\"%s\" agregado a tu wishlist."
+msgstr "\"%s\" added to your wishlist."
+
+msgid "\"%s\" removido de tu wishlist."
+msgstr "\"%s\" removed from your wishlist."
+
+msgid "\"%s\" no tiene stock disponible."
+msgstr "\"%s\" is out of stock."
+
+msgid "\"%s\" agregado al carrito."
+msgstr "\"%s\" added to cart."
+
+msgid "Producto eliminado del carrito."
+msgstr "Product removed from cart."
+
+msgid "Tu carrito está vacío."
+msgstr "Your cart is empty."
+
+msgid "La dirección de envío es obligatoria."
+msgstr "Shipping address is required."
+
+msgid "Método de pago no válido."
+msgstr "Invalid payment method."
+
 msgid "¡Orden creada exitosamente!"
 msgstr "Order created successfully!"
+
+msgid "Cuenta creada correctamente. ¡Bienvenido a Kibo!"
+msgstr "Account created successfully. Welcome to Kibo!"
+
+msgid "Bienvenido, %s."
+msgstr "Welcome, %s."
+
+msgid "Sesión cerrada correctamente."
+msgstr "Session closed successfully."
+
+msgid "Perfil actualizado correctamente."
+msgstr "Profile updated successfully."
+
+msgid "\"%s\" ha sido registrada."
+msgstr "\"%s\" has been registered."
+
+msgid "\"%s\" ha sido actualizada."
+msgstr "\"%s\" has been updated."
+
+msgid "\"%s\" ha sido eliminada."
+msgstr "\"%s\" has been deleted."
+
+msgid "Agregar"
+msgstr "Add"
+
+msgid "Producto creado correctamente."
+msgstr "Product created successfully."
+
+msgid "Producto actualizado correctamente."
+msgstr "Product updated successfully."
+
+msgid "Producto eliminado correctamente."
+msgstr "Product deleted successfully."
+
+msgid "No tienes permisos para acceder al panel administrativo."
+msgstr "You don't have permission to access the admin panel."
+
+# ── Model choices ─────────────────────────────────────────────────────────────
+msgid "Pendiente"
+msgstr "Pending"
+
+msgid "Confirmado"
+msgstr "Confirmed"
+
+msgid "Enviado"
+msgstr "Shipped"
+
+msgid "Entregado"
+msgstr "Delivered"
+
+msgid "Cancelado"
+msgstr "Cancelled"
+
+msgid "Tarjeta de crédito/débito (simulado)"
+msgstr "Credit/Debit Card (simulated)"
+
+msgid "Efectivo contra entrega"
+msgstr "Cash on delivery"
+
+msgid "Transferencia bancaria"
+msgstr "Bank transfer"

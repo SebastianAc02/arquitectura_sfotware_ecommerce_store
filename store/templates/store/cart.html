@@ -1,10 +1,11 @@
 {% extends 'base_public.html' %}
-{% block title %}Mi carrito — Kibo{% endblock %}
+{% load i18n %}
+{% block title %}{% trans "Mi carrito" %} — Kibo{% endblock %}
 
 {% block content %}
 <div class="mb-6 flex items-center justify-between">
-    <h1 class="text-2xl font-bold" style="color:#3b3028;">Mi carrito</h1>
-    <a href="{% url 'store:catalog' %}" class="btn btn-ghost btn-sm">← Seguir comprando</a>
+    <h1 class="text-2xl font-bold" style="color:#3b3028;">{% trans "Mi carrito" %}</h1>
+    <a href="{% url 'store:catalog' %}" class="btn btn-ghost btn-sm">← {% trans "Seguir comprando" %}</a>
 </div>
 
 {% if items %}
@@ -55,7 +56,7 @@
     <div class="lg:col-span-1">
         <div class="card bg-base-100 shadow-sm sticky top-4">
             <div class="card-body">
-                <h2 class="card-title text-lg mb-4">Resumen</h2>
+                <h2 class="card-title text-lg mb-4">{% trans "Resumen" %}</h2>
                 <div class="space-y-2 text-sm">
                     {% for item in items %}
                     <div class="flex justify-between text-base-content/70">
@@ -66,12 +67,12 @@
                 </div>
                 <div class="divider my-3"></div>
                 <div class="flex justify-between font-bold text-lg">
-                    <span>Total</span>
+                    <span>{% trans "Total" %}</span>
                     <span style="color:#3b3028;">${{ cart.get_total }}</span>
                 </div>
                 <a href="{% url 'store:checkout' %}" class="btn w-full mt-4 font-semibold"
                    style="background:#3b3028; color:white;">
-                    Proceder al pago
+                    {% trans "Proceder al pago" %}
                 </a>
             </div>
         </div>
@@ -82,8 +83,8 @@
 <div class="card bg-base-100 shadow-sm">
     <div class="card-body text-center py-20">
         <span class="text-6xl mb-4">🛒</span>
-        <p class="text-xl font-medium text-base-content/50">Tu carrito está vacío</p>
-        <a href="{% url 'store:catalog' %}" class="btn btn-warning mt-4 px-8">Explorar productos</a>
+        <p class="text-xl font-medium text-base-content/50">{% trans "Tu carrito está vacío" %}</p>
+        <a href="{% url 'store:catalog' %}" class="btn btn-warning mt-4 px-8">{% trans "Explorar productos" %}</a>
     </div>
 </div>
 {% endif %}

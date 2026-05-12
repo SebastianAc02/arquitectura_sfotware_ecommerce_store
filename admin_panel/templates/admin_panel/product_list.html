@@ -1,13 +1,16 @@
 {% extends 'base_admin.html' %}
-{% block title %}Productos — Kibo Admin{% endblock %}
-{% block page_title %}Productos{% endblock %}
+{% load i18n %}
+{% block title %}{% trans "Productos" %} — Kibo Admin{% endblock %}
+{% block page_title %}{% trans "Productos" %}{% endblock %}
 
 {% block content %}
 <div class="flex justify-between items-center mb-4">
-    <p class="text-sm text-base-content/50">{{ products|length }} producto{{ products|length|pluralize }} registrado{{ products|length|pluralize }}</p>
+    <p class="text-sm text-base-content/50">
+        {% blocktrans count count=products|length %}{{ count }} producto registrado{% plural %}{{ count }} productos registrados{% endblocktrans %}
+    </p>
     <a class="btn btn-sm font-semibold" style="background:#3b3028; color:white;"
        href="{% url 'admin_panel:product_create' %}">
-        + Nuevo producto
+        + {% trans "Nuevo producto" %}
     </a>
 </div>
 
@@ -17,11 +20,11 @@
             <thead>
                 <tr class="text-xs uppercase text-base-content/40 tracking-wider">
                     <th>#</th>
-                    <th>Nombre</th>
-                    <th>Categoría</th>
-                    <th>Precio</th>
-                    <th>Stock</th>
-                    <th>Estado</th>
+                    <th>{% trans "Nombre" %}</th>
+                    <th>{% trans "Categoría" %}</th>
+                    <th>{% trans "Precio" %}</th>
+                    <th>{% trans "Stock" %}</th>
+                    <th>{% trans "Estado" %}</th>
                     <th></th>
                 </tr>
             </thead>
@@ -35,20 +38,20 @@
                     <td class="text-sm">{{ product.stock }}</td>
                     <td>
                         {% if product.is_active %}
-                        <span class="badge badge-success badge-sm">Activo</span>
+                        <span class="badge badge-success badge-sm">{% trans "Activo" %}</span>
                         {% else %}
-                        <span class="badge badge-ghost badge-sm">Inactivo</span>
+                        <span class="badge badge-ghost badge-sm">{% trans "Inactivo" %}</span>
                         {% endif %}
                     </td>
                     <td>
                         <div class="flex gap-2">
-                            <a class="btn btn-xs btn-ghost" href="{% url 'admin_panel:product_edit' product.id %}">Editar</a>
-                            <a class="btn btn-xs btn-ghost text-error" href="{% url 'admin_panel:product_delete' product.id %}">Eliminar</a>
+                            <a class="btn btn-xs btn-ghost" href="{% url 'admin_panel:product_edit' product.id %}">{% trans "Editar" %}</a>
+                            <a class="btn btn-xs btn-ghost text-error" href="{% url 'admin_panel:product_delete' product.id %}">{% trans "Eliminar" %}</a>
                         </div>
                     </td>
                 </tr>
             {% empty %}
-                <tr><td colspan="7" class="text-center text-base-content/30 py-8">No hay productos creados.</td></tr>
+                <tr><td colspan="7" class="text-center text-base-content/30 py-8">{% trans "No hay productos creados." %}</td></tr>
             {% endfor %}
             </tbody>
         </table>

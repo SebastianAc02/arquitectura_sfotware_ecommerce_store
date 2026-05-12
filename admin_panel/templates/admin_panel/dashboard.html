@@ -1,4 +1,5 @@
 {% extends 'base_admin.html' %}
+{% load i18n %}
 {% block title %}Dashboard — Kibo Admin{% endblock %}
 {% block page_title %}Dashboard{% endblock %}
 
@@ -7,23 +8,23 @@
 <!-- Stats -->
 <div class="stats stats-vertical lg:stats-horizontal shadow w-full mb-6 bg-base-100">
     <div class="stat">
-        <div class="stat-title">Total productos</div>
+        <div class="stat-title">{% trans "Total productos" %}</div>
         <div class="stat-value text-3xl">{{ total_products }}</div>
     </div>
     <div class="stat">
-        <div class="stat-title">Productos activos</div>
+        <div class="stat-title">{% trans "Productos activos" %}</div>
         <div class="stat-value text-3xl text-success">{{ active_products }}</div>
     </div>
     <div class="stat">
-        <div class="stat-title">Total órdenes</div>
+        <div class="stat-title">{% trans "Total órdenes" %}</div>
         <div class="stat-value text-3xl">{{ total_orders }}</div>
     </div>
     <div class="stat">
-        <div class="stat-title">Órdenes pendientes</div>
+        <div class="stat-title">{% trans "Órdenes pendientes" %}</div>
         <div class="stat-value text-3xl text-warning">{{ pending_orders }}</div>
     </div>
     <div class="stat">
-        <div class="stat-title">Ventas acumuladas</div>
+        <div class="stat-title">{% trans "Ventas acumuladas" %}</div>
         <div class="stat-value text-3xl text-success">${{ total_sales|default:"0" }}</div>
     </div>
 </div>
@@ -33,16 +34,16 @@
     <div class="card bg-base-100 shadow-sm">
         <div class="card-body">
             <h3 class="text-xs font-semibold uppercase tracking-widest text-base-content/40 mb-3">
-                Top productos vendidos
+                {% trans "Top productos vendidos" %}
             </h3>
             <ul class="space-y-2">
                 {% for p in top_products %}
                 <li class="flex justify-between items-center text-sm">
                     <span class="truncate max-w-[70%]">{{ p.name }}</span>
-                    <span class="badge badge-ghost">{{ p.sold_qty|default:0 }} uds.</span>
+                    <span class="badge badge-ghost">{{ p.sold_qty|default:0 }} {% trans "uds." %}</span>
                 </li>
                 {% empty %}
-                <li class="text-sm text-base-content/40">Sin datos aún.</li>
+                <li class="text-sm text-base-content/40">{% trans "Sin datos aún." %}</li>
                 {% endfor %}
             </ul>
         </div>
@@ -51,16 +52,16 @@
     <div class="card bg-base-100 shadow-sm">
         <div class="card-body">
             <h3 class="text-xs font-semibold uppercase tracking-widest text-base-content/40 mb-3">
-                ⭐ Top productos comentados
+                ⭐ {% trans "Top productos comentados" %}
             </h3>
             <ul class="space-y-2">
                 {% for p in top_commented %}
                 <li class="flex justify-between items-center text-sm">
                     <span class="truncate max-w-[70%]">{{ p.name }}</span>
-                    <span class="badge badge-ghost">{{ p.review_count|default:0 }} reseñas</span>
+                    <span class="badge badge-ghost">{{ p.review_count|default:0 }} {% trans "reseñas" %}</span>
                 </li>
                 {% empty %}
-                <li class="text-sm text-base-content/40">Sin datos aún.</li>
+                <li class="text-sm text-base-content/40">{% trans "Sin datos aún." %}</li>
                 {% endfor %}
             </ul>
         </div>

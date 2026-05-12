@@ -1,6 +1,7 @@
 {% extends 'base_admin.html' %}
-{% block title %}{% if mode == 'create' %}Nuevo producto{% else %}Editar producto{% endif %} — Kibo Admin{% endblock %}
-{% block page_title %}{% if mode == 'create' %}Nuevo producto{% else %}Editar: {{ form.instance.name }}{% endif %}{% endblock %}
+{% load i18n %}
+{% block title %}{% if mode == 'create' %}{% trans "Nuevo producto" %}{% else %}{% trans "Editar producto" %}{% endif %} — Kibo Admin{% endblock %}
+{% block page_title %}{% if mode == 'create' %}{% trans "Nuevo producto" %}{% else %}{% trans "Editar:" %} {{ form.instance.name }}{% endif %}{% endblock %}
 
 {% block content %}
 <div class="max-w-2xl">
@@ -58,9 +59,9 @@
 
                 <div class="flex gap-3 mt-6">
                     <button class="btn font-semibold px-6" type="submit" style="background:#3b3028; color:white;">
-                        Guardar
+                        {% trans "Guardar" %}
                     </button>
-                    <a class="btn btn-ghost" href="{% url 'admin_panel:product_list' %}">Cancelar</a>
+                    <a class="btn btn-ghost" href="{% url 'admin_panel:product_list' %}">{% trans "Cancelar" %}</a>
                 </div>
             </form>
         </div>

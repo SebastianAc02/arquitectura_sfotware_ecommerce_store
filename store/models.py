@@ -7,6 +7,7 @@ from django.db import models
 from django.db.models import Sum
 from django.db.models.functions import Coalesce
 from django.contrib.auth.models import User
+from django.utils.translation import gettext_lazy as _
 
 
 class Category(models.Model):
@@ -177,11 +178,11 @@ class Order(models.Model):
     Usar choices evita strings libres inconsistentes en la DB.
     """
     STATUS_CHOICES = [
-        ('pending',   'Pendiente'),
-        ('confirmed', 'Confirmado'),
-        ('shipped',   'Enviado'),
-        ('delivered', 'Entregado'),
-        ('cancelled', 'Cancelado'),
+        ('pending',   _('Pendiente')),
+        ('confirmed', _('Confirmado')),
+        ('shipped',   _('Enviado')),
+        ('delivered', _('Entregado')),
+        ('cancelled', _('Cancelado')),
     ]
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='orders')
     total = models.DecimalField(max_digits=10, decimal_places=2)

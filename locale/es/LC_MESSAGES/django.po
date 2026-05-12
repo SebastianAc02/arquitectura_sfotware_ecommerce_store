@@ -1,12 +1,26 @@
-# Spanish translations for Kibo Pet Shop (default language)
+# Kibo Pet Shop — Traducciones al Español (idioma por defecto)
+# Copyright (C) 2026 Equipo Kibo
+#
 msgid ""
 msgstr ""
+"Project-Id-Version: Kibo 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-11 00:00+0000\n"
+"PO-Revision-Date: 2026-05-11 00:00+0000\n"
+"Last-Translator: Equipo Kibo\n"
+"Language-Team: Spanish\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: es\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-msgid "Catálogo de productos"
-msgstr "Catálogo de productos"
+# ── Navegación ───────────────────────────────────────────────────────────────
+msgid "Inicio"
+msgstr "Inicio"
+
+msgid "Catálogo"
+msgstr "Catálogo"
 
 msgid "Carrito"
 msgstr "Carrito"
@@ -17,23 +31,55 @@ msgstr "Mis órdenes"
 msgid "Mi perfil"
 msgstr "Mi perfil"
 
+msgid "Panel admin"
+msgstr "Panel admin"
+
+msgid "Panel"
+msgstr "Panel"
+
+msgid "Cerrar sesión"
+msgstr "Cerrar sesión"
+
 msgid "Iniciar sesión"
 msgstr "Iniciar sesión"
 
 msgid "Registrarse"
 msgstr "Registrarse"
 
-msgid "Cerrar sesión"
-msgstr "Cerrar sesión"
+msgid "Salir"
+msgstr "Salir"
 
-msgid "Inicio"
-msgstr "Inicio"
+# ── Home ─────────────────────────────────────────────────────────────────────
+msgid "Bienvenido a Kibo"
+msgstr "Bienvenido a Kibo"
 
-msgid "Agregar al carrito"
-msgstr "Agregar al carrito"
+msgid "Todo lo que tu mascota necesita, en un solo lugar."
+msgstr "Todo lo que tu mascota necesita, en un solo lugar."
 
-msgid "Ver detalle"
-msgstr "Ver detalle"
+msgid "Explorar catálogo"
+msgstr "Explorar catálogo"
+
+msgid "Categorías"
+msgstr "Categorías"
+
+msgid "Productos destacados"
+msgstr "Productos destacados"
+
+msgid "Sin imagen"
+msgstr "Sin imagen"
+
+msgid "Ver"
+msgstr "Ver"
+
+msgid "No hay productos disponibles por el momento."
+msgstr "No hay productos disponibles por el momento."
+
+# ── Catálogo ─────────────────────────────────────────────────────────────────
+msgid "Catálogo de productos"
+msgstr "Catálogo de productos"
+
+msgid "Explora productos y aplica filtros por categoría, precio y tipo de mascota."
+msgstr "Explora productos y aplica filtros por categoría, precio y tipo de mascota."
 
 msgid "Filtros"
 msgstr "Filtros"
@@ -41,8 +87,29 @@ msgstr "Filtros"
 msgid "Categoría"
 msgstr "Categoría"
 
+msgid "Todas"
+msgstr "Todas"
+
 msgid "Tipo de mascota"
 msgstr "Tipo de mascota"
+
+msgid "Todos"
+msgstr "Todos"
+
+msgid "Perro"
+msgstr "Perro"
+
+msgid "Gato"
+msgstr "Gato"
+
+msgid "Ave"
+msgstr "Ave"
+
+msgid "Otro"
+msgstr "Otro"
+
+msgid "Multi-especie"
+msgstr "Multi-especie"
 
 msgid "Precio min"
 msgstr "Precio min"
@@ -50,17 +117,451 @@ msgstr "Precio min"
 msgid "Precio max"
 msgstr "Precio max"
 
+msgid "Aplicar"
+msgstr "Aplicar"
+
+msgid "Limpiar"
+msgstr "Limpiar"
+
+msgid "En wishlist"
+msgstr "En wishlist"
+
+msgid "Wishlist"
+msgstr "Wishlist"
+
+msgid "Ver detalle"
+msgstr "Ver detalle"
+
+msgid "Top vendido"
+msgstr "Top vendido"
+
+msgid "Stock:"
+msgstr "Stock:"
+
+msgid "Sin stock"
+msgstr "Sin stock"
+
+msgid "Producto para tu mascota."
+msgstr "Producto para tu mascota."
+
+msgid "No se encontraron productos con esos filtros."
+msgstr "No se encontraron productos con esos filtros."
+
+msgid "Limpiar filtros"
+msgstr "Limpiar filtros"
+
+# ── Carrito ──────────────────────────────────────────────────────────────────
+msgid "Mi carrito"
+msgstr "Mi carrito"
+
+msgid "Seguir comprando"
+msgstr "Seguir comprando"
+
+msgid "Resumen"
+msgstr "Resumen"
+
+msgid "Total"
+msgstr "Total"
+
+msgid "Proceder al pago"
+msgstr "Proceder al pago"
+
+msgid "Tu carrito está vacío"
+msgstr "Tu carrito está vacío"
+
+msgid "Explorar productos"
+msgstr "Explorar productos"
+
+# ── Checkout ─────────────────────────────────────────────────────────────────
+msgid "Checkout"
+msgstr "Checkout"
+
+msgid "Revisa tu pedido y confirma la compra."
+msgstr "Revisa tu pedido y confirma la compra."
+
+msgid "Datos de envío"
+msgstr "Datos de envío"
+
+msgid "Dirección de envío"
+msgstr "Dirección de envío"
+
+msgid "Calle, número, ciudad, departamento..."
+msgstr "Calle, número, ciudad, departamento..."
+
+msgid "Método de pago"
+msgstr "Método de pago"
+
+msgid "* Entorno de demostración — no se procesará ningún cobro real."
+msgstr "* Entorno de demostración — no se procesará ningún cobro real."
+
+msgid "Confirmar orden"
+msgstr "Confirmar orden"
+
+msgid "Tu pedido (%(count)s producto)"
+msgid_plural "Tu pedido (%(count)s productos)"
+msgstr[0] "Tu pedido (%(count)s producto)"
+msgstr[1] "Tu pedido (%(count)s productos)"
+
+# ── Detalle de producto ───────────────────────────────────────────────────────
+msgid "Sin descripción."
+msgstr "Sin descripción."
+
+msgid "Tipo:"
+msgstr "Tipo:"
+
+msgid "Etapa:"
+msgstr "Etapa:"
+
+msgid "Agregar al carrito"
+msgstr "Agregar al carrito"
+
+msgid "Agregar a wishlist"
+msgstr "Agregar a wishlist"
+
+msgid "Reseñas"
+msgstr "Reseñas"
+
+msgid "Aún no hay reseñas para este producto."
+msgstr "Aún no hay reseñas para este producto."
+
+msgid "También te puede interesar"
+msgstr "También te puede interesar"
+
+msgid "No hay recomendaciones disponibles por ahora."
+msgstr "No hay recomendaciones disponibles por ahora."
+
+# ── Mis órdenes ───────────────────────────────────────────────────────────────
+msgid "Orden"
+msgstr "Orden"
+
+msgid "Envío a:"
+msgstr "Envío a:"
+
+msgid "Aún no tienes órdenes"
+msgstr "Aún no tienes órdenes"
+
+# ── Confirmación de orden ─────────────────────────────────────────────────────
+msgid "Orden confirmada"
+msgstr "Orden confirmada"
+
+msgid "¡Orden confirmada!"
+msgstr "¡Orden confirmada!"
+
+msgid "recibida el"
+msgstr "recibida el"
+
+msgid "Resumen del pedido"
+msgstr "Resumen del pedido"
+
+msgid "Dirección:"
+msgstr "Dirección:"
+
+msgid "Método de pago:"
+msgstr "Método de pago:"
+
+msgid "Estado:"
+msgstr "Estado:"
+
+# ── Login / Registro ──────────────────────────────────────────────────────────
+msgid "Accede a tu cuenta de Kibo."
+msgstr "Accede a tu cuenta de Kibo."
+
+msgid "Entrar"
+msgstr "Entrar"
+
+msgid "¿No tienes cuenta?"
+msgstr "¿No tienes cuenta?"
+
+msgid "Regístrate aquí"
+msgstr "Regístrate aquí"
+
+msgid "Registro"
+msgstr "Registro"
+
+msgid "Crear cuenta"
+msgstr "Crear cuenta"
+
+msgid "Regístrate para comprar y gestionar tu perfil."
+msgstr "Regístrate para comprar y gestionar tu perfil."
+
+msgid "¿Ya tienes cuenta?"
+msgstr "¿Ya tienes cuenta?"
+
+msgid "Inicia sesión"
+msgstr "Inicia sesión"
+
+# ── Perfil ────────────────────────────────────────────────────────────────────
+msgid "Actualiza tus datos de cuenta y contacto."
+msgstr "Actualiza tus datos de cuenta y contacto."
+
+msgid "Administrador"
+msgstr "Administrador"
+
+msgid "Cliente"
+msgstr "Cliente"
+
+msgid "Datos de cuenta"
+msgstr "Datos de cuenta"
+
+msgid "Datos de perfil"
+msgstr "Datos de perfil"
+
 msgid "Guardar cambios"
 msgstr "Guardar cambios"
 
 msgid "Mis mascotas"
 msgstr "Mis mascotas"
 
+msgid "Ir al panel"
+msgstr "Ir al panel"
+
+# ── Mascotas ──────────────────────────────────────────────────────────────────
+msgid "Gestiona los perfiles de tus animales."
+msgstr "Gestiona los perfiles de tus animales."
+
+msgid "Perfil"
+msgstr "Perfil"
+
 msgid "Agregar mascota"
 msgstr "Agregar mascota"
 
-msgid "Checkout"
-msgstr "Checkout"
+msgid "Raza:"
+msgstr "Raza:"
+
+msgid "Edad:"
+msgstr "Edad:"
+
+msgid "%(edad)s año"
+msgid_plural "%(edad)s años"
+msgstr[0] "%(edad)s año"
+msgstr[1] "%(edad)s años"
+
+msgid "Peso:"
+msgstr "Peso:"
+
+msgid "Editar"
+msgstr "Editar"
+
+msgid "Eliminar"
+msgstr "Eliminar"
+
+msgid "Aún no tienes mascotas registradas"
+msgstr "Aún no tienes mascotas registradas"
+
+msgid "Registrar mi primera mascota"
+msgstr "Registrar mi primera mascota"
+
+msgid "mascota"
+msgstr "mascota"
+
+msgid "Registra a tu compañero en Kibo."
+msgstr "Registra a tu compañero en Kibo."
+
+msgid "Editando:"
+msgstr "Editando:"
+
+msgid "Cancelar"
+msgstr "Cancelar"
+
+msgid "¿Eliminar mascota?"
+msgstr "¿Eliminar mascota?"
+
+msgid "Esta acción no se puede deshacer."
+msgstr "Esta acción no se puede deshacer."
+
+msgid "Sí, eliminar"
+msgstr "Sí, eliminar"
+
+msgid "Eliminar mascota"
+msgstr "Eliminar mascota"
+
+# ── Admin Dashboard ───────────────────────────────────────────────────────────
+msgid "Total productos"
+msgstr "Total productos"
+
+msgid "Productos activos"
+msgstr "Productos activos"
+
+msgid "Total órdenes"
+msgstr "Total órdenes"
+
+msgid "Órdenes pendientes"
+msgstr "Órdenes pendientes"
+
+msgid "Ventas acumuladas"
+msgstr "Ventas acumuladas"
+
+msgid "Top productos vendidos"
+msgstr "Top productos vendidos"
+
+msgid "Top productos comentados"
+msgstr "Top productos comentados"
+
+msgid "uds."
+msgstr "uds."
+
+msgid "reseñas"
+msgstr "reseñas"
+
+msgid "Sin datos aún."
+msgstr "Sin datos aún."
+
+# ── Admin Productos ───────────────────────────────────────────────────────────
+msgid "%(count)s producto registrado"
+msgid_plural "%(count)s productos registrados"
+msgstr[0] "%(count)s producto registrado"
+msgstr[1] "%(count)s productos registrados"
+
+msgid "Nuevo producto"
+msgstr "Nuevo producto"
+
+msgid "Nombre"
+msgstr "Nombre"
+
+msgid "Precio"
+msgstr "Precio"
+
+msgid "Estado"
+msgstr "Estado"
+
+msgid "Activo"
+msgstr "Activo"
+
+msgid "Inactivo"
+msgstr "Inactivo"
+
+msgid "No hay productos creados."
+msgstr "No hay productos creados."
+
+msgid "Editar producto"
+msgstr "Editar producto"
+
+msgid "Editar:"
+msgstr "Editar:"
+
+msgid "Guardar"
+msgstr "Guardar"
+
+msgid "Confirmar eliminación"
+msgstr "Confirmar eliminación"
+
+msgid "Advertencia"
+msgstr "Advertencia"
+
+msgid "¿Eliminar producto?"
+msgstr "¿Eliminar producto?"
+
+msgid "Eliminar producto"
+msgstr "Eliminar producto"
+
+# ── Admin Órdenes ─────────────────────────────────────────────────────────────
+msgid "Órdenes"
+msgstr "Órdenes"
+
+msgid "Usuario"
+msgstr "Usuario"
+
+msgid "Fecha"
+msgstr "Fecha"
+
+msgid "Productos"
+msgstr "Productos"
+
+msgid "Sin items"
+msgstr "Sin items"
+
+msgid "No hay órdenes registradas."
+msgstr "No hay órdenes registradas."
+
+# ── Admin Sidebar ─────────────────────────────────────────────────────────────
+msgid "Ver tienda"
+msgstr "Ver tienda"
+
+# ── Mensajes flash (views.py) ─────────────────────────────────────────────────
+msgid "\"%s\" agregado a tu wishlist."
+msgstr "\"%s\" agregado a tu wishlist."
+
+msgid "\"%s\" removido de tu wishlist."
+msgstr "\"%s\" removido de tu wishlist."
+
+msgid "\"%s\" no tiene stock disponible."
+msgstr "\"%s\" no tiene stock disponible."
+
+msgid "\"%s\" agregado al carrito."
+msgstr "\"%s\" agregado al carrito."
+
+msgid "Producto eliminado del carrito."
+msgstr "Producto eliminado del carrito."
+
+msgid "Tu carrito está vacío."
+msgstr "Tu carrito está vacío."
+
+msgid "La dirección de envío es obligatoria."
+msgstr "La dirección de envío es obligatoria."
+
+msgid "Método de pago no válido."
+msgstr "Método de pago no válido."
 
 msgid "¡Orden creada exitosamente!"
 msgstr "¡Orden creada exitosamente!"
+
+msgid "Cuenta creada correctamente. ¡Bienvenido a Kibo!"
+msgstr "Cuenta creada correctamente. ¡Bienvenido a Kibo!"
+
+msgid "Bienvenido, %s."
+msgstr "Bienvenido, %s."
+
+msgid "Sesión cerrada correctamente."
+msgstr "Sesión cerrada correctamente."
+
+msgid "Perfil actualizado correctamente."
+msgstr "Perfil actualizado correctamente."
+
+msgid "\"%s\" ha sido registrada."
+msgstr "\"%s\" ha sido registrada."
+
+msgid "\"%s\" ha sido actualizada."
+msgstr "\"%s\" ha sido actualizada."
+
+msgid "\"%s\" ha sido eliminada."
+msgstr "\"%s\" ha sido eliminada."
+
+msgid "Agregar"
+msgstr "Agregar"
+
+msgid "Producto creado correctamente."
+msgstr "Producto creado correctamente."
+
+msgid "Producto actualizado correctamente."
+msgstr "Producto actualizado correctamente."
+
+msgid "Producto eliminado correctamente."
+msgstr "Producto eliminado correctamente."
+
+msgid "No tienes permisos para acceder al panel administrativo."
+msgstr "No tienes permisos para acceder al panel administrativo."
+
+# ── Choices de modelos ────────────────────────────────────────────────────────
+msgid "Pendiente"
+msgstr "Pendiente"
+
+msgid "Confirmado"
+msgstr "Confirmado"
+
+msgid "Enviado"
+msgstr "Enviado"
+
+msgid "Entregado"
+msgstr "Entregado"
+
+msgid "Cancelado"
+msgstr "Cancelado"
+
+msgid "Tarjeta de crédito/débito (simulado)"
+msgstr "Tarjeta de crédito/débito (simulado)"
+
+msgid "Efectivo contra entrega"
+msgstr "Efectivo contra entrega"
+
+msgid "Transferencia bancaria"
+msgstr "Transferencia bancaria"

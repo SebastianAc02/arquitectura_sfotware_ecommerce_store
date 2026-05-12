@@ -1,6 +1,7 @@
 {% extends 'base_admin.html' %}
-{% block title %}Órdenes — Kibo Admin{% endblock %}
-{% block page_title %}Órdenes{% endblock %}
+{% load i18n %}
+{% block title %}{% trans "Órdenes" %} — Kibo Admin{% endblock %}
+{% block page_title %}{% trans "Órdenes" %}{% endblock %}
 
 {% block content %}
 <div class="card bg-base-100 shadow-sm">
@@ -8,12 +9,12 @@
         <table class="table table-sm">
             <thead>
                 <tr class="text-xs uppercase text-base-content/40 tracking-wider">
-                    <th>Orden</th>
-                    <th>Usuario</th>
-                    <th>Total</th>
-                    <th>Estado</th>
-                    <th>Fecha</th>
-                    <th>Productos</th>
+                    <th>{% trans "Orden" %}</th>
+                    <th>{% trans "Usuario" %}</th>
+                    <th>{% trans "Total" %}</th>
+                    <th>{% trans "Estado" %}</th>
+                    <th>{% trans "Fecha" %}</th>
+                    <th>{% trans "Productos" %}</th>
                 </tr>
             </thead>
             <tbody>
@@ -42,12 +43,12 @@
                         {% for item in order.items.all %}
                             <div>{{ item.quantity }}× {{ item.product.name }}</div>
                         {% empty %}
-                            <span class="text-base-content/30">Sin items</span>
+                            <span class="text-base-content/30">{% trans "Sin items" %}</span>
                         {% endfor %}
                     </td>
                 </tr>
                 {% empty %}
-                <tr><td colspan="6" class="text-center text-base-content/30 py-8">No hay órdenes registradas.</td></tr>
+                <tr><td colspan="6" class="text-center text-base-content/30 py-8">{% trans "No hay órdenes registradas." %}</td></tr>
                 {% endfor %}
             </tbody>
         </table>

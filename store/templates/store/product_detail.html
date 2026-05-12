@@ -1,11 +1,12 @@
 {% extends 'base_public.html' %}
+{% load i18n %}
 {% block title %}{{ product.name }} — Kibo{% endblock %}
 
 {% block content %}
 <div class="mb-4 text-sm breadcrumbs">
     <ul>
-        <li><a href="{% url 'store:home' %}">Inicio</a></li>
-        <li><a href="{% url 'store:catalog' %}">Catálogo</a></li>
+        <li><a href="{% url 'store:home' %}">{% trans "Inicio" %}</a></li>
+        <li><a href="{% url 'store:catalog' %}">{% trans "Catálogo" %}</a></li>
         <li>{{ product.name }}</li>
     </ul>
 </div>
@@ -18,7 +19,7 @@
             </figure>
         {% else %}
             <figure class="h-80 bg-base-200 flex items-center justify-center">
-                <span class="text-sm text-base-content/60">Sin imagen</span>
+                <span class="text-sm text-base-content/60">{% trans "Sin imagen" %}</span>
             </figure>
         {% endif %}
     </div>
@@ -27,19 +28,21 @@
         <div class="card-body">
             <p class="text-xs uppercase tracking-wider text-base-content/40">{{ product.category.name }}</p>
             <h1 class="text-3xl font-bold">{{ product.name }}</h1>
-            <p class="text-base-content/70">{{ product.description|default:'Sin descripción.' }}</p>
+            <p class="text-base-content/70">
+                {% if product.description %}{{ product.description }}{% else %}{% trans "Sin descripción." %}{% endif %}
+            </p>
 
             <div class="mt-2">
                 <span class="text-3xl font-extrabold" style="color:#3b3028;">${{ product.price }}</span>
             </div>
 
             <div class="mt-2 flex gap-2 flex-wrap">
-                <span class="badge badge-outline">Tipo: {{ product.tipo_mascota|default:'todos' }}</span>
-                <span class="badge badge-outline">Etapa: {{ product.etapa_vida|default:'todos' }}</span>
+                <span class="badge badge-outline">{% trans "Tipo:" %} {{ product.tipo_mascota|default:'—' }}</span>
+                <span class="badge badge-outline">{% trans "Etapa:" %} {{ product.etapa_vida|default:'—' }}</span>
                 {% if product.stock > 0 %}
-                    <span class="badge badge-success">Stock: {{ product.stock }}</span>
+                    <span class="badge badge-success">{% trans "Stock:" %} {{ product.stock }}</span>
                 {% else %}
-                    <span class="badge badge-error">Sin stock</span>
+                    <span class="badge badge-error">{% trans "Sin stock" %}</span>
                 {% endif %}
             </div>
 
@@ -49,10 +52,10 @@
                     <input type="hidden" name="next" value="{{ request.get_full_path }}">
                     {% if product.is_available %}
                     <button type="submit" class="btn btn-warning font-semibold px-6">
-                        🛒 Agregar al carrito
+                        🛒 {% trans "Agregar al carrito" %}
                     </button>
                     {% else %}
-                    <button type="button" class="btn btn-disabled" disabled>Sin stock</button>
+                    <button type="button" class="btn btn-disabled" disabled>{% trans "Sin stock" %}</button>
                     {% endif %}
                 </form>
 
@@ -60,7 +63,7 @@
                     {% csrf_token %}
                     <input type="hidden" name="next" value="{{ request.get_full_path }}">
                     <button type="submit" class="btn btn-outline">
-                        {% if is_wishlisted %}En wishlist{% else %}Agregar a wishlist{% endif %}
+                        {% if is_wishlisted %}{% trans "En wishlist" %}{% else %}{% trans "Agregar a wishlist" %}{% endif %}
                     </button>
                 </form>
             </div>
@@ -71,7 +74,7 @@
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
     <section class="card bg-base-100 shadow-sm">
         <div class="card-body">
-            <h2 class="card-title">Reseñas</h2>
+            <h2 class="card-title">{% trans "Reseñas" %}</h2>
             {% if reviews %}
                 <div class="space-y-3">
                     {% for r in reviews %}
@@ -82,14 +85,14 @@
                     {% endfor %}
                 </div>
             {% else %}
-                <p class="text-base-content/60">Aún no hay reseñas para este producto.</p>
+                <p class="text-base-content/60">{% trans "Aún no hay reseñas para este producto." %}</p>
             {% endif %}
         </div>
     </section>
 
     <section class="card bg-base-100 shadow-sm">
         <div class="card-body">
-            <h2 class="card-title">También te puede interesar</h2>
+            <h2 class="card-title">{% trans "También te puede interesar" %}</h2>
             {% if recommendations %}
                 <div class="space-y-2">
                     {% for rec in recommendations %}
@@ -105,9 +108,9 @@
                                     <input type="hidden" name="next" value="{{ request.get_full_path }}">
                                     <button type="submit" class="btn btn-ghost btn-xs">
                                         {% if user.is_authenticated and rec.id in wishlist_reco_ids %}
-                                            <span class="text-xs text-success">En wishlist</span>
+                                            <span class="text-xs text-success">{% trans "En wishlist" %}</span>
                                         {% else %}
-                                            <span class="text-xs text-base-content/60">Wishlist</span>
+                                            <span class="text-xs text-base-content/60">{% trans "Wishlist" %}</span>
                                         {% endif %}
                                     </button>
                                 </form>
@@ -116,7 +119,7 @@
                     {% endfor %}
                 </div>
             {% else %}
-                <p class="text-base-content/60">No hay recomendaciones disponibles por ahora.</p>
+                <p class="text-base-content/60">{% trans "No hay recomendaciones disponibles por ahora." %}</p>
             {% endif %}
         </div>
     </section>

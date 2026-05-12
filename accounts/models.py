@@ -5,6 +5,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.utils.translation import gettext_lazy as _
 
 
 class UserProfile(models.Model):
@@ -30,10 +31,10 @@ class Mascota(models.Model):
     Permite recomendaciones basicas por tipo/etapa de vida del animal.
     """
     TIPO_CHOICES = [
-        ('perro', 'Perro'),
-        ('gato', 'Gato'),
-        ('ave', 'Ave'),
-        ('otro', 'Otro'),
+        ('perro', _('Perro')),
+        ('gato', _('Gato')),
+        ('ave', _('Ave')),
+        ('otro', _('Otro')),
     ]
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='mascotas')
     nombre = models.CharField(max_length=100)

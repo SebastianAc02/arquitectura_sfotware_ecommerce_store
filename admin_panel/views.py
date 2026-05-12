@@ -10,6 +10,7 @@ from django.db.models import Count, Sum
 from django.http import HttpResponseForbidden
 from django.shortcuts import render
 from django.urls import reverse_lazy
+from django.utils.translation import gettext_lazy as _
 from django.views.generic import CreateView, DeleteView, UpdateView
 
 from .forms import ProductForm
@@ -29,7 +30,7 @@ def admin_required(view_func):
     @functools.wraps(view_func)
     def _wrapped(request, *args, **kwargs):
         if not _is_admin_user(request.user):
-            return HttpResponseForbidden('No tienes permisos para acceder al panel administrativo.')
+            return HttpResponseForbidden(_('No tienes permisos para acceder al panel administrativo.'))
         return view_func(request, *args, **kwargs)
     return _wrapped
 
@@ -42,7 +43,7 @@ class AdminRequiredMixin(LoginRequiredMixin):
 
     def dispatch(self, request, *args, **kwargs):
         if not _is_admin_user(request.user):
-            return HttpResponseForbidden('No tienes permisos para acceder al panel administrativo.')
+            return HttpResponseForbidden(_('No tienes permisos para acceder al panel administrativo.'))
         return super().dispatch(request, *args, **kwargs)
 
 
@@ -112,7 +113,7 @@ class ProductCreateView(AdminRequiredMixin, CreateView):
         return ctx
 
     def form_valid(self, form):
-        messages.success(self.request, 'Producto creado correctamente.')
+        messages.success(self.request, _('Producto creado correctamente.'))
         return super().form_valid(form)
 
 
@@ -130,7 +131,7 @@ class ProductUpdateView(AdminRequiredMixin, UpdateView):
         return ctx
 
     def form_valid(self, form):
-        messages.success(self.request, 'Producto actualizado correctamente.')
+        messages.success(self.request, _('Producto actualizado correctamente.'))
         return super().form_valid(form)
 
 
@@ -142,5 +143,5 @@ class ProductDeleteView(AdminRequiredMixin, DeleteView):
     context_object_name = 'product'
 
     def form_valid(self, form):
-        messages.success(self.request, 'Producto eliminado correctamente.')
+        messages.success(self.request, _('Producto eliminado correctamente.'))
         return super().form_valid(form)

@@ -4,15 +4,16 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView
 
 from .models import Cart, CartItem, Category, Order, OrderItem, Product, Review, Wishlist
 from .services import CheckoutService
 
 PAYMENT_CHOICES = [
-    ('tarjeta',       'Tarjeta de crédito/débito (simulado)'),
-    ('efectivo',      'Efectivo contra entrega'),
-    ('transferencia', 'Transferencia bancaria'),
+    ('tarjeta',       _('Tarjeta de crédito/débito (simulado)')),
+    ('efectivo',      _('Efectivo contra entrega')),
+    ('transferencia', _('Transferencia bancaria')),
 ]
 
 
@@ -124,10 +125,10 @@ def wishlist_toggle(request, slug):
 
     favorite, created = Wishlist.objects.get_or_create(user=request.user, product=product)
     if created:
-        messages.success(request, f'"{product.name}" agregado a tu wishlist.')
+        messages.success(request, _('"%s" agregado a tu wishlist.') % product.name)
     else:
         favorite.delete()
-        messages.info(request, f'"{product.name}" removido de tu wishlist.')
+        messages.info(request, _('"%s" removido de tu wishlist.') % product.name)
 
     next_url = request.POST.get('next') or request.GET.get('next')
     if not next_url:
@@ -162,7 +163,7 @@ def cart_add(request, slug):
     product = get_object_or_404(Product, slug=slug, is_active=True)
 
     if not product.is_available():
-        messages.warning(request, f'"{product.name}" no tiene stock disponible.')
+        messages.warning(request, _('"%s" no tiene stock disponible.') % product.name)
         return redirect('store:product_detail', slug=slug)
 
     cart, _ = Cart.objects.get_or_create(user=request.user)
@@ -171,7 +172,7 @@ def cart_add(request, slug):
         item.quantity += 1
         item.save()
 
-    messages.success(request, f'"{product.name}" agregado al carrito.')
+    messages.success(request, _('"%s" agregado al carrito.') % product.name)
     return redirect('store:product_detail', slug=slug)
 
 
@@ -182,7 +183,7 @@ def cart_remove(request, item_id):
         return redirect('store:cart')
     item = get_object_or_404(CartItem, id=item_id, cart__user=request.user)
     item.delete()
-    messages.info(request, 'Producto eliminado del carrito.')
+    messages.info(request, _('Producto eliminado del carrito.'))
     return redirect('store:cart')
 
 
@@ -198,7 +199,7 @@ def cart_update(request, item_id):
         qty = 1
     if qty < 1:
         item.delete()
-        messages.info(request, 'Producto eliminado del carrito.')
+        messages.info(request, _('Producto eliminado del carrito.'))
     else:
         item.quantity = qty
         item.save()
@@ -220,7 +221,7 @@ def checkout_view(request):
     items = cart.items.select_related('product').all()
 
     if not items.exists():
-        messages.warning(request, 'Tu carrito está vacío.')
+        messages.warning(request, _('Tu carrito está vacío.'))
         return redirect('store:cart')
 
     if request.method == 'POST':
@@ -228,13 +229,13 @@ def checkout_view(request):
         payment_method = request.POST.get('payment_method', '')
 
         if not shipping_address:
-            messages.error(request, 'La dirección de envío es obligatoria.')
+            messages.error(request, _('La dirección de envío es obligatoria.'))
             return render(request, 'store/checkout.html', {
                 'cart': cart, 'items': items, 'payment_choices': PAYMENT_CHOICES,
             })
 
         if payment_method not in dict(PAYMENT_CHOICES):
-            messages.error(request, 'Método de pago no válido.')
+            messages.error(request, _('Método de pago no válido.'))
             return render(request, 'store/checkout.html', {
                 'cart': cart, 'items': items, 'payment_choices': PAYMENT_CHOICES,
             })
@@ -253,7 +254,7 @@ def checkout_view(request):
                 'cart': cart, 'items': items, 'payment_choices': PAYMENT_CHOICES,
             })
 
-        messages.success(request, '¡Orden creada exitosamente!')
+        messages.success(request, _('¡Orden creada exitosamente!'))
         return redirect('store:order_confirmation', order_id=order.id)
 
     return render(request, 'store/checkout.html', {

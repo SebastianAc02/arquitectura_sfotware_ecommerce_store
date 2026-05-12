@@ -1,10 +1,10 @@
+{% load static %}{% load i18n %}
 <!DOCTYPE html>
 <html lang="es" data-theme="autumn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Kibo — Pet Shop{% endblock %}</title>
-    {% load static %}
     <!-- DaisyUI v4 -->
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4/dist/full.min.css" rel="stylesheet" type="text/css">
     <!-- Tailwind v3 CDN -->
@@ -24,19 +24,19 @@
                     </svg>
                 </label>
                 <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-50 p-2 shadow bg-base-100 rounded-box w-52">
-                    <li><a href="{% url 'store:home' %}">Inicio</a></li>
-                    <li><a href="{% url 'store:catalog' %}">Catálogo</a></li>
+                    <li><a href="{% url 'store:home' %}">{% trans "Inicio" %}</a></li>
+                    <li><a href="{% url 'store:catalog' %}">{% trans "Catálogo" %}</a></li>
                     {% if user.is_authenticated %}
-                        <li><a href="{% url 'store:cart' %}">Carrito {% if cart_count %}<span class="badge badge-sm badge-warning">{{ cart_count }}</span>{% endif %}</a></li>
-                        <li><a href="{% url 'store:my_orders' %}">Mis órdenes</a></li>
-                        <li><a href="{% url 'accounts:profile' %}">Mi perfil</a></li>
+                        <li><a href="{% url 'store:cart' %}">{% trans "Carrito" %} {% if cart_count %}<span class="badge badge-sm badge-warning">{{ cart_count }}</span>{% endif %}</a></li>
+                        <li><a href="{% url 'store:my_orders' %}">{% trans "Mis órdenes" %}</a></li>
+                        <li><a href="{% url 'accounts:profile' %}">{% trans "Mi perfil" %}</a></li>
                         {% if user.profile and user.profile.is_admin %}
-                        <li><a href="{% url 'admin_panel:dashboard' %}">Panel admin</a></li>
+                        <li><a href="{% url 'admin_panel:dashboard' %}">{% trans "Panel admin" %}</a></li>
                         {% endif %}
-                        <li><a href="{% url 'accounts:logout' %}">Cerrar sesión</a></li>
+                        <li><a href="{% url 'accounts:logout' %}">{% trans "Cerrar sesión" %}</a></li>
                     {% else %}
-                        <li><a href="{% url 'accounts:login' %}">Iniciar sesión</a></li>
-                        <li><a href="{% url 'accounts:register' %}">Registrarse</a></li>
+                        <li><a href="{% url 'accounts:login' %}">{% trans "Iniciar sesión" %}</a></li>
+                        <li><a href="{% url 'accounts:register' %}">{% trans "Registrarse" %}</a></li>
                     {% endif %}
                 </ul>
             </div>
@@ -46,8 +46,8 @@
         </div>
 
         <div class="navbar-end hidden lg:flex gap-1">
-            <a href="{% url 'store:home' %}" class="btn btn-ghost btn-sm text-white/80 hover:text-white">Inicio</a>
-            <a href="{% url 'store:catalog' %}" class="btn btn-ghost btn-sm text-white/80 hover:text-white">Catálogo</a>
+            <a href="{% url 'store:home' %}" class="btn btn-ghost btn-sm text-white/80 hover:text-white">{% trans "Inicio" %}</a>
+            <a href="{% url 'store:catalog' %}" class="btn btn-ghost btn-sm text-white/80 hover:text-white">{% trans "Catálogo" %}</a>
             {% if user.is_authenticated %}
                 <!-- Carrito con badge -->
                 <a href="{% url 'store:cart' %}" class="btn btn-ghost btn-sm text-white/80 hover:text-white relative">
@@ -56,24 +56,24 @@
                     <span class="badge badge-xs badge-warning absolute -top-1 -right-1">{{ cart_count }}</span>
                     {% endif %}
                 </a>
-                <a href="{% url 'store:my_orders' %}" class="btn btn-ghost btn-sm text-white/80 hover:text-white">Mis órdenes</a>
+                <a href="{% url 'store:my_orders' %}" class="btn btn-ghost btn-sm text-white/80 hover:text-white">{% trans "Mis órdenes" %}</a>
                 <a href="{% url 'accounts:profile' %}" class="btn btn-ghost btn-sm text-white/80 hover:text-white">
                     {{ user.username }}
                 </a>
                 {% if user.profile and user.profile.is_admin %}
                 <a href="{% url 'admin_panel:dashboard' %}" class="btn btn-ghost btn-sm text-white/80 hover:text-white">
-                    Panel
+                    {% trans "Panel" %}
                 </a>
                 {% endif %}
                 <a href="{% url 'accounts:logout' %}" class="btn btn-ghost btn-sm text-white/80 hover:text-white">
-                    Salir
+                    {% trans "Salir" %}
                 </a>
             {% else %}
                 <a href="{% url 'accounts:login' %}" class="btn btn-ghost btn-sm text-white/80 hover:text-white">
-                    Iniciar sesión
+                    {% trans "Iniciar sesión" %}
                 </a>
                 <a href="{% url 'accounts:register' %}" class="btn btn-sm btn-warning font-semibold ml-1">
-                    Registrarse
+                    {% trans "Registrarse" %}
                 </a>
             {% endif %}
         </div>
@@ -98,7 +98,6 @@
     <footer class="footer footer-center p-4 mt-8" style="background:#3b3028; color:rgba(255,255,255,0.5);">
         <div class="flex items-center gap-4">
             <p class="text-sm">Kibo Pet Shop © 2026</p>
-            {% load i18n %}
             <form action="{% url 'set_language' %}" method="post" class="flex items-center gap-1">
                 {% csrf_token %}
                 <input name="next" type="hidden" value="{{ request.path }}">

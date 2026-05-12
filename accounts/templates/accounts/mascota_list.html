@@ -1,15 +1,16 @@
 {% extends 'base_public.html' %}
-{% block title %}Mis mascotas — Kibo{% endblock %}
+{% load i18n %}
+{% block title %}{% trans "Mis mascotas" %} — Kibo{% endblock %}
 
 {% block content %}
 <div class="mb-6 flex items-center justify-between">
     <div>
-        <h1 class="text-2xl font-bold" style="color:#3b3028;">Mis mascotas</h1>
-        <p class="text-base-content/60 mt-1">Gestiona los perfiles de tus animales.</p>
+        <h1 class="text-2xl font-bold" style="color:#3b3028;">{% trans "Mis mascotas" %}</h1>
+        <p class="text-base-content/60 mt-1">{% trans "Gestiona los perfiles de tus animales." %}</p>
     </div>
     <div class="flex gap-2">
-        <a href="{% url 'accounts:profile' %}" class="btn btn-ghost btn-sm">← Perfil</a>
-        <a href="{% url 'accounts:mascota_create' %}" class="btn btn-warning btn-sm font-semibold">+ Agregar mascota</a>
+        <a href="{% url 'accounts:profile' %}" class="btn btn-ghost btn-sm">← {% trans "Perfil" %}</a>
+        <a href="{% url 'accounts:mascota_create' %}" class="btn btn-warning btn-sm font-semibold">+ {% trans "Agregar mascota" %}</a>
     </div>
 </div>
 
@@ -34,15 +35,15 @@
 
             <div class="text-sm text-base-content/70 mt-2 space-y-1">
                 {% if mascota.raza %}
-                <p>Raza: <span class="font-medium">{{ mascota.raza }}</span></p>
+                <p>{% trans "Raza:" %} <span class="font-medium">{{ mascota.raza }}</span></p>
                 {% endif %}
-                <p>Edad: <span class="font-medium">{{ mascota.edad }} año{{ mascota.edad|pluralize }}</span></p>
-                <p>Peso: <span class="font-medium">{{ mascota.peso }} kg</span></p>
+                <p>{% trans "Edad:" %} <span class="font-medium">{% blocktrans count edad=mascota.edad %}{{ edad }} año{% plural %}{{ edad }} años{% endblocktrans %}</span></p>
+                <p>{% trans "Peso:" %} <span class="font-medium">{{ mascota.peso }} kg</span></p>
             </div>
 
             <div class="flex gap-2 mt-4">
-                <a href="{% url 'accounts:mascota_edit' mascota.pk %}" class="btn btn-ghost btn-xs">Editar</a>
-                <a href="{% url 'accounts:mascota_delete' mascota.pk %}" class="btn btn-ghost btn-xs text-error">Eliminar</a>
+                <a href="{% url 'accounts:mascota_edit' mascota.pk %}" class="btn btn-ghost btn-xs">{% trans "Editar" %}</a>
+                <a href="{% url 'accounts:mascota_delete' mascota.pk %}" class="btn btn-ghost btn-xs text-error">{% trans "Eliminar" %}</a>
             </div>
         </div>
     </div>
@@ -53,8 +54,8 @@
 <div class="card bg-base-100 shadow-sm">
     <div class="card-body text-center py-20">
         <span class="text-6xl mb-4">🐾</span>
-        <p class="text-xl font-medium text-base-content/50">Aún no tienes mascotas registradas</p>
-        <a href="{% url 'accounts:mascota_create' %}" class="btn btn-warning mt-4 px-8">Registrar mi primera mascota</a>
+        <p class="text-xl font-medium text-base-content/50">{% trans "Aún no tienes mascotas registradas" %}</p>
+        <a href="{% url 'accounts:mascota_create' %}" class="btn btn-warning mt-4 px-8">{% trans "Registrar mi primera mascota" %}</a>
     </div>
 </div>
 {% endif %}

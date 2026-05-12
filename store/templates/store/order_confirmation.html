@@ -1,5 +1,6 @@
 {% extends 'base_public.html' %}
-{% block title %}Orden confirmada — Kibo{% endblock %}
+{% load i18n %}
+{% block title %}{% trans "Orden confirmada" %} — Kibo{% endblock %}
 
 {% block content %}
 <div class="flex justify-center">
@@ -7,11 +8,13 @@
         <div class="card-body p-8 text-center">
 
             <div class="text-6xl mb-4">✅</div>
-            <h1 class="text-2xl font-bold mb-1" style="color:#3b3028;">¡Orden confirmada!</h1>
-            <p class="text-base-content/50 mb-6">Orden <strong>#{{ order.id }}</strong> recibida el {{ order.created_at|date:'d/m/Y H:i' }}</p>
+            <h1 class="text-2xl font-bold mb-1" style="color:#3b3028;">{% trans "¡Orden confirmada!" %}</h1>
+            <p class="text-base-content/50 mb-6">
+                {% trans "Orden" %} <strong>#{{ order.id }}</strong> {% trans "recibida el" %} {{ order.created_at|date:'d/m/Y H:i' }}
+            </p>
 
             <div class="text-left bg-base-200 rounded-xl p-4 mb-6">
-                <p class="text-xs font-semibold uppercase tracking-widest text-base-content/40 mb-3">Resumen del pedido</p>
+                <p class="text-xs font-semibold uppercase tracking-widest text-base-content/40 mb-3">{% trans "Resumen del pedido" %}</p>
                 <div class="space-y-2">
                     {% for item in order.items.all %}
                     <div class="flex justify-between text-sm">
@@ -21,22 +24,22 @@
                     {% endfor %}
                 </div>
                 <div class="border-t border-base-300 mt-3 pt-3 flex justify-between font-bold">
-                    <span>Total</span>
+                    <span>{% trans "Total" %}</span>
                     <span style="color:#3b3028;">${{ order.total }}</span>
                 </div>
             </div>
 
             <div class="text-left mb-6 space-y-1 text-sm text-base-content/70">
-                <p><strong>Dirección:</strong> {{ order.shipping_address }}</p>
-                <p><strong>Método de pago:</strong> {{ order.payment_method }}</p>
-                <p><strong>Estado:</strong>
+                <p><strong>{% trans "Dirección:" %}</strong> {{ order.shipping_address }}</p>
+                <p><strong>{% trans "Método de pago:" %}</strong> {{ order.payment_method }}</p>
+                <p><strong>{% trans "Estado:" %}</strong>
                     <span class="badge badge-warning badge-sm">{{ order.get_status_display }}</span>
                 </p>
             </div>
 
             <div class="flex gap-3 justify-center">
-                <a href="{% url 'store:catalog' %}" class="btn btn-warning px-6">Seguir comprando</a>
-                <a href="{% url 'store:my_orders' %}" class="btn btn-ghost px-6">Mis órdenes</a>
+                <a href="{% url 'store:catalog' %}" class="btn btn-warning px-6">{% trans "Seguir comprando" %}</a>
+                <a href="{% url 'store:my_orders' %}" class="btn btn-ghost px-6">{% trans "Mis órdenes" %}</a>
             </div>
         </div>
     </div>

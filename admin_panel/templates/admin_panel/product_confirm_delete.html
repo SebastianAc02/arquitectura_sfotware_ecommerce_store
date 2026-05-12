@@ -1,6 +1,7 @@
 {% extends 'base_admin.html' %}
-{% block title %}Eliminar producto — Kibo Admin{% endblock %}
-{% block page_title %}Confirmar eliminación{% endblock %}
+{% load i18n %}
+{% block title %}{% trans "Eliminar producto" %} — Kibo Admin{% endblock %}
+{% block page_title %}{% trans "Confirmar eliminación" %}{% endblock %}
 
 {% block content %}
 <div class="max-w-md">
@@ -8,11 +9,11 @@
         <div class="card-body p-6">
             <div class="flex items-start gap-4 mb-6">
                 <div class="w-12 h-12 rounded-full bg-error/10 flex items-center justify-center flex-shrink-0 text-xl">
-                    Advertencia
+                    {% trans "Advertencia" %}
                 </div>
                 <div>
-                    <h3 class="font-bold text-lg">¿Eliminar producto?</h3>
-                    <p class="text-sm text-base-content/50 mt-1">Esta acción no se puede deshacer.</p>
+                    <h3 class="font-bold text-lg">{% trans "¿Eliminar producto?" %}</h3>
+                    <p class="text-sm text-base-content/50 mt-1">{% trans "Esta acción no se puede deshacer." %}</p>
                 </div>
             </div>
 
@@ -24,8 +25,8 @@
             <form method="post">
                 {% csrf_token %}
                 <div class="flex gap-3">
-                    <button class="btn btn-error font-semibold px-6" type="submit">Sí, eliminar</button>
-                    <a class="btn btn-ghost" href="{% url 'admin_panel:product_list' %}">Cancelar</a>
+                    <button class="btn btn-error font-semibold px-6" type="submit">{% trans "Sí, eliminar" %}</button>
+                    <a class="btn btn-ghost" href="{% url 'admin_panel:product_list' %}">{% trans "Cancelar" %}</a>
                 </div>
             </form>
         </div>

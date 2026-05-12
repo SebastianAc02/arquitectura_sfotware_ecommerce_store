@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, redirect, render
+from django.utils.translation import gettext_lazy as _
 
 from .forms import MascotaForm, ProfileUpdateForm, RegisterForm, UserUpdateForm
 from .models import Mascota, UserProfile
@@ -23,7 +24,7 @@ def register_view(request):
             user = form.save()
             UserProfile.objects.get_or_create(user=user)
             login(request, user)
-            messages.success(request, 'Cuenta creada correctamente. ¡Bienvenido a Kibo!')
+            messages.success(request, _('Cuenta creada correctamente. ¡Bienvenido a Kibo!'))
             return redirect('store:home')
     else:
         form = RegisterForm()
@@ -40,7 +41,7 @@ def login_view(request):
     if request.method == 'POST' and form.is_valid():
         user = form.get_user()
         login(request, user)
-        messages.success(request, f'Bienvenido, {user.username}.')
+        messages.success(request, _('Bienvenido, %s.') % user.username)
 
         is_domain_admin = UserProfile.objects.filter(user=user, is_admin=True).exists()
         if is_domain_admin:
@@ -54,7 +55,7 @@ def login_view(request):
 def logout_view(request):
     """Cierra sesión y redirige al login."""
     logout(request)
-    messages.info(request, 'Sesión cerrada correctamente.')
+    messages.info(request, _('Sesión cerrada correctamente.'))
     return redirect('accounts:login')
 
 
@@ -71,7 +72,7 @@ def profile_view(request):
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
-            messages.success(request, 'Perfil actualizado correctamente.')
+            messages.success(request, _('Perfil actualizado correctamente.'))
             return redirect('accounts:profile')
     else:
         user_form = UserUpdateForm(instance=user)
@@ -108,12 +109,12 @@ def mascota_create(request):
             mascota = form.save(commit=False)
             mascota.user = request.user
             mascota.save()
-            messages.success(request, f'"{mascota.nombre}" ha sido registrada.')
+            messages.success(request, _('"%s" ha sido registrada.') % mascota.nombre)
             return redirect('accounts:mascota_list')
     else:
         form = MascotaForm()
 
-    return render(request, 'accounts/mascota_form.html', {'form': form, 'action': 'Agregar'})
+    return render(request, 'accounts/mascota_form.html', {'form': form, 'action': _('Agregar')})
 
 
 @login_required
@@ -125,14 +126,14 @@ def mascota_edit(request, pk):
         form = MascotaForm(request.POST, instance=mascota)
         if form.is_valid():
             form.save()
-            messages.success(request, f'"{mascota.nombre}" ha sido actualizada.')
+            messages.success(request, _('"%s" ha sido actualizada.') % mascota.nombre)
             return redirect('accounts:mascota_list')
     else:
         form = MascotaForm(instance=mascota)
 
     return render(request, 'accounts/mascota_form.html', {
         'form': form,
-        'action': 'Editar',
+        'action': _('Editar'),
         'mascota': mascota,
     })
 
@@ -145,7 +146,7 @@ def mascota_delete(request, pk):
     if request.method == 'POST':
         nombre = mascota.nombre
         mascota.delete()
-        messages.info(request, f'"{nombre}" ha sido eliminada.')
+        messages.info(request, _('"%s" ha sido eliminada.') % nombre)
         return redirect('accounts:mascota_list')
 
     return render(request, 'accounts/mascota_confirm_delete.html', {'mascota': mascota})
