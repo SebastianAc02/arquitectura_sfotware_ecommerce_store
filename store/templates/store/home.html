@@ -65,4 +65,67 @@
     {% endif %}
 </div>
 
+<!-- Dato curioso sobre mascotas -->
+<div class="mt-8">
+    <div class="card bg-base-100 shadow-sm border border-base-200 rounded-2xl">
+        <div class="card-body items-center text-center py-8 px-6">
+            <div class="text-5xl mb-2">🐾</div>
+            <h3 class="card-title text-lg mb-3" style="color:#3b3028;">¿Sabías que...?</h3>
+            <p id="dato-curioso" class="text-base-content/70 text-sm max-w-md leading-relaxed">
+                Cargando dato...
+            </p>
+            <div class="card-actions mt-4">
+                <button id="btn-otro-dato" class="btn btn-sm btn-outline" style="border-color:#3b3028; color:#3b3028;">
+                    Otro dato
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+(function () {
+    const API_KEY = 'hS4VljwaAcjHzhEf25VjBtoLBZbNINXQuwpguf7f';
+    const animals = ['dog', 'cat', 'rabbit', 'hamster', 'parrot'];
+    let currentIndex = 0;
+
+    const FALLBACK = 'Los gatos duermen hasta 16 horas al día. 😸';
+
+    function buildText(data) {
+        if (!data || !data.length) return FALLBACK;
+        const animal = data[0];
+        const name = animal.name || '';
+        const lifespan = (animal.characteristics && animal.characteristics.lifespan) || '?';
+        const diet = (animal.characteristics && animal.characteristics.diet) || '?';
+        return 'El ' + name + ' puede vivir hasta ' + lifespan + '. Su dieta es ' + diet + '.';
+    }
+
+    function fetchDato(animalName) {
+        const el = document.getElementById('dato-curioso');
+        el.textContent = 'Cargando dato...';
+
+        fetch('https://api.api-ninjas.com/v1/animals?name=' + animalName, {
+            headers: { 'X-Api-Key': API_KEY }
+        })
+        .then(function (res) {
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            return res.json();
+        })
+        .then(function (data) {
+            el.textContent = buildText(data);
+        })
+        .catch(function () {
+            el.textContent = FALLBACK;
+        });
+    }
+
+    document.getElementById('btn-otro-dato').addEventListener('click', function () {
+        currentIndex = (currentIndex + 1) % animals.length;
+        fetchDato(animals[currentIndex]);
+    });
+
+    fetchDato(animals[currentIndex]);
+})();
+</script>
+
 {% endblock %}

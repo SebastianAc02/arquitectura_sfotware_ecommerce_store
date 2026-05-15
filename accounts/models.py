@@ -42,6 +42,12 @@ class Mascota(models.Model):
     raza = models.CharField(max_length=100, blank=True)
     edad = models.PositiveIntegerField(help_text='Edad en años')
     peso = models.FloatField(help_text='Peso en kg')
+    imagen = models.ImageField(
+        upload_to='mascotas/',
+        blank=True,
+        null=True,
+        help_text='Foto de tu mascota (opcional)'
+    )
 
     def __str__(self):
         return f"{self.nombre} ({self.tipo}) — {self.user.username}"

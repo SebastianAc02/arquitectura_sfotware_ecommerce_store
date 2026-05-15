@@ -24,13 +24,20 @@
                     <h2 class="card-title text-lg">{{ mascota.nombre }}</h2>
                     <p class="text-sm text-base-content/60">{{ mascota.get_tipo_display }}</p>
                 </div>
-                <span class="badge badge-outline">
+                {% if mascota.imagen %}
+                <img src="{{ mascota.imagen.url }}"
+                     alt="{{ mascota.nombre }}"
+                     class="w-14 h-14 rounded-full object-cover border-2 flex-shrink-0"
+                     style="border-color:#3b3028;">
+                {% else %}
+                <span class="badge badge-outline text-xl">
                     {% if mascota.tipo == 'perro' %}🐶
                     {% elif mascota.tipo == 'gato' %}🐱
                     {% elif mascota.tipo == 'ave' %}🐦
                     {% else %}🐾
                     {% endif %}
                 </span>
+                {% endif %}
             </div>
 
             <div class="text-sm text-base-content/70 mt-2 space-y-1">

@@ -2,6 +2,7 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
@@ -288,3 +289,42 @@ def my_orders(request):
     page_number = request.GET.get('page')
     orders = paginator.get_page(page_number)
     return render(request, 'store/my_orders.html', {'orders': orders})
+
+
+# ─────────────────────────────────────────────
+# API JSON PÚBLICA
+# ─────────────────────────────────────────────
+
+def productos_api(request):
+    """
+    GET /api/productos/
+    Retorna productos activos con stock > 0 en formato JSON.
+    Público — no requiere autenticación.
+    """
+    products = (
+        Product.objects
+        .activos()
+        .filter(stock__gt=0)
+        .select_related('category')
+        .order_by('name')
+    )
+
+    data = []
+    for p in products:
+        imagen_url = (
+            request.build_absolute_uri(p.image.url) if p.image else None
+        )
+        detalle_url = request.build_absolute_uri(
+            reverse('store:product_detail', kwargs={'slug': p.slug})
+        )
+        data.append({
+            'id':          p.id,
+            'nombre':      p.name,
+            'precio':      str(p.price),
+            'categoria':   p.category.name,
+            'stock':       p.stock,
+            'imagen_url':  imagen_url,
+            'detalle_url': detalle_url,
+        })
+
+    return JsonResponse({'productos': data})

@@ -1,5 +1,5 @@
 {% extends 'base_public.html' %}
-{% load i18n %}
+{% load i18n l10n %}
 {% block title %}{{ action }} {% trans "mascota" %} — Kibo{% endblock %}
 
 {% block content %}
@@ -15,37 +15,95 @@
                 {% endif %}
             </div>
 
-            <form method="post" novalidate>
+            <form method="post" enctype="multipart/form-data" novalidate>
                 {% csrf_token %}
-                {% for field in form %}
+
+                <!-- Nombre -->
                 <fieldset class="fieldset mb-4">
-                    <legend class="fieldset-legend text-sm font-semibold">{{ field.label }}</legend>
-                    {% if 'Select' in field.field.widget.__class__.__name__ %}
-                    <select name="{{ field.html_name }}" id="{{ field.id_for_label }}"
-                            class="select select-bordered w-full {% if field.errors %}select-error{% endif %}">
-                        {% for val, label in field.field.choices %}
-                        <option value="{{ val }}" {% if field.value|stringformat:'s' == val %}selected{% endif %}>{{ label }}</option>
-                        {% endfor %}
-                    </select>
-                    {% else %}
-                    <input
-                        type="{{ field.field.widget.input_type }}"
-                        name="{{ field.html_name }}"
-                        id="{{ field.id_for_label }}"
-                        class="input input-bordered w-full {% if field.errors %}input-error{% endif %}"
-                        {% if field.value %}value="{{ field.value }}"{% endif %}
-                        {% if field.field.widget.attrs.step %}step="{{ field.field.widget.attrs.step }}"{% endif %}
-                        {% if field.field.widget.attrs.min is not None %}min="{{ field.field.widget.attrs.min }}"{% endif %}
-                    >
-                    {% endif %}
-                    {% if field.help_text %}
-                    <p class="text-xs text-base-content/40 mt-1">{{ field.help_text }}</p>
-                    {% endif %}
-                    {% for error in field.errors %}
+                    <legend class="fieldset-legend text-sm font-semibold">{{ form.nombre.label }}</legend>
+                    <input type="text" name="nombre" id="{{ form.nombre.id_for_label }}"
+                           class="input input-bordered w-full {% if form.nombre.errors %}input-error{% endif %}"
+                           value="{{ form.nombre.value|default:'' }}">
+                    {% for error in form.nombre.errors %}
                     <p class="text-error text-xs mt-1">{{ error }}</p>
                     {% endfor %}
                 </fieldset>
-                {% endfor %}
+
+                <!-- Tipo -->
+                <fieldset class="fieldset mb-4">
+                    <legend class="fieldset-legend text-sm font-semibold">{{ form.tipo.label }}</legend>
+                    <select name="tipo" id="{{ form.tipo.id_for_label }}"
+                            class="select select-bordered w-full {% if form.tipo.errors %}select-error{% endif %}">
+                        {% for val, label in form.tipo.field.choices %}
+                        <option value="{{ val }}" {% if form.tipo.value|stringformat:'s' == val %}selected{% endif %}>
+                            {{ label }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                    {% for error in form.tipo.errors %}
+                    <p class="text-error text-xs mt-1">{{ error }}</p>
+                    {% endfor %}
+                </fieldset>
+
+                <!-- Raza -->
+                <fieldset class="fieldset mb-4">
+                    <legend class="fieldset-legend text-sm font-semibold">{{ form.raza.label }}</legend>
+                    <input type="text" name="raza" id="{{ form.raza.id_for_label }}"
+                           class="input input-bordered w-full {% if form.raza.errors %}input-error{% endif %}"
+                           list="razas-list" autocomplete="off"
+                           placeholder="Escribe o selecciona una raza..."
+                           value="{{ form.raza.value|default:'' }}">
+                    <datalist id="razas-list"></datalist>
+                    {% for error in form.raza.errors %}
+                    <p class="text-error text-xs mt-1">{{ error }}</p>
+                    {% endfor %}
+                </fieldset>
+
+                <!-- Edad -->
+                <fieldset class="fieldset mb-4">
+                    <legend class="fieldset-legend text-sm font-semibold">{{ form.edad.label }}</legend>
+                    <input type="number" name="edad" id="{{ form.edad.id_for_label }}"
+                           class="input input-bordered w-full {% if form.edad.errors %}input-error{% endif %}"
+                           min="0"
+                           value="{{ form.edad.value|default:'' }}">
+                    {% for error in form.edad.errors %}
+                    <p class="text-error text-xs mt-1">{{ error }}</p>
+                    {% endfor %}
+                </fieldset>
+
+                <!-- Peso -->
+                <fieldset class="fieldset mb-4">
+                    <legend class="fieldset-legend text-sm font-semibold">{{ form.peso.label }}</legend>
+                    <input type="number" name="peso" id="{{ form.peso.id_for_label }}"
+                           class="input input-bordered w-full {% if form.peso.errors %}input-error{% endif %}"
+                           min="0" step="0.1"
+                           value="{{ form.peso.value|unlocalize|default:'' }}">
+                    {% for error in form.peso.errors %}
+                    <p class="text-error text-xs mt-1">{{ error }}</p>
+                    {% endfor %}
+                </fieldset>
+
+                <!-- Imagen -->
+                <fieldset class="fieldset mb-4">
+                    <legend class="fieldset-legend text-sm font-semibold">{{ form.imagen.label }}</legend>
+                    <input type="file" name="imagen" id="{{ form.imagen.id_for_label }}"
+                           class="file-input file-input-bordered w-full {% if form.imagen.errors %}file-input-error{% endif %}"
+                           accept="image/png, image/jpeg, image/webp">
+                    <p class="text-xs text-base-content/40 mt-1">{{ form.imagen.help_text }}</p>
+                    {% for error in form.imagen.errors %}
+                    <p class="text-error text-xs mt-1">{{ error }}</p>
+                    {% endfor %}
+                </fieldset>
+
+                {% if mascota.imagen %}
+                <div class="mb-4">
+                    <p class="text-sm font-semibold text-base-content/60 mb-2">Foto actual:</p>
+                    <img src="{{ mascota.imagen.url }}"
+                         alt="{{ mascota.nombre }}"
+                         class="w-24 h-24 rounded-full object-cover border-2"
+                         style="border-color:#3b3028;">
+                </div>
+                {% endif %}
 
                 <div class="flex gap-3 mt-6">
                     <button type="submit" class="btn font-semibold px-6" style="background:#3b3028; color:white;">
@@ -57,4 +115,74 @@
         </div>
     </div>
 </div>
+
+<script>
+(function () {
+    var LANG = '{{ request.LANGUAGE_CODE }}';
+    var selectTipo = document.querySelector('[name="tipo"]');
+    var datalist   = document.getElementById('razas-list');
+    var inputRaza  = document.querySelector('[name="raza"]');
+
+    if (!selectTipo || !datalist || !inputRaza) return;
+
+    var RAZAS = {
+        perro: {
+            es: ['Labrador Retriever', 'Pastor Alemán', 'Golden Retriever', 'Bulldog',
+                 'Beagle', 'Caniche', 'Yorkshire Terrier', 'Boxer', 'Dálmata', 'Chihuahua',
+                 'Rottweiler', 'Husky Siberiano', 'Doberman', 'Shih Tzu', 'Maltés',
+                 'Schnauzer', 'Pomerania', 'Cocker Spaniel', 'Border Collie', 'Pug'],
+            en: ['Labrador Retriever', 'German Shepherd', 'Golden Retriever', 'Bulldog',
+                 'Beagle', 'Poodle', 'Yorkshire Terrier', 'Boxer', 'Dalmatian', 'Chihuahua',
+                 'Rottweiler', 'Siberian Husky', 'Dobermann', 'Shih Tzu', 'Maltese',
+                 'Schnauzer', 'Pomeranian', 'Cocker Spaniel', 'Border Collie', 'Pug']
+        },
+        gato: {
+            es: ['Persa', 'Siamés', 'Maine Coon', 'Ragdoll', 'Bengalí', 'Abisinio',
+                 'Birmano', 'British Shorthair', 'Esfinge', 'Angora Turco',
+                 'Noruego del Bosque', 'Ruso Azul', 'Scottish Fold', 'Munchkin', 'Devon Rex'],
+            en: ['Persian', 'Siamese', 'Maine Coon', 'Ragdoll', 'Bengal', 'Abyssinian',
+                 'Birman', 'British Shorthair', 'Sphynx', 'Turkish Angora',
+                 'Norwegian Forest Cat', 'Russian Blue', 'Scottish Fold', 'Munchkin', 'Devon Rex']
+        },
+        ave: {
+            es: ['Canario', 'Periquito', 'Loro', 'Agapornis', 'Cacatúa',
+                 'Jilguero', 'Diamante mandarín', 'Ninfas', 'Paloma', 'Cotorra'],
+            en: ['Canary', 'Budgerigar', 'Parrot', 'Lovebird', 'Cockatoo',
+                 'Goldfinch', 'Zebra Finch', 'Cockatiel', 'Pigeon', 'Parakeet']
+        },
+        otro: {
+            es: ['Hamster', 'Conejo', 'Tortuga', 'Iguana', 'Cobaya',
+                 'Hurón', 'Chinchilla', 'Pez dorado', 'Pez betta', 'Serpiente'],
+            en: ['Hamster', 'Rabbit', 'Turtle', 'Iguana', 'Guinea Pig',
+                 'Ferret', 'Chinchilla', 'Goldfish', 'Betta Fish', 'Snake']
+        }
+    };
+
+    function llenarDatalist(nombres) {
+        datalist.innerHTML = '';
+        nombres.forEach(function (nombre) {
+            var opt = document.createElement('option');
+            opt.value = nombre;
+            datalist.appendChild(opt);
+        });
+    }
+
+    function cargarRazas(tipo) {
+        var grupo = RAZAS[tipo];
+        if (!grupo) { datalist.innerHTML = ''; return; }
+        var lang = LANG.startsWith('en') ? 'en' : 'es';
+        llenarDatalist(grupo[lang] || grupo.es);
+    }
+
+    selectTipo.addEventListener('change', function () {
+        inputRaza.value = '';
+        cargarRazas(this.value);
+    });
+
+    if (selectTipo.value) {
+        cargarRazas(selectTipo.value);
+    }
+})();
+</script>
+
 {% endblock %}

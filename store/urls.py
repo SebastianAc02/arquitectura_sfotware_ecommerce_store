@@ -18,4 +18,6 @@ urlpatterns = [
     path('checkout/', views.checkout_view, name='checkout'),
     path('orden/<int:order_id>/confirmacion/', views.order_confirmation, name='order_confirmation'),
     path('mis-ordenes/', views.my_orders, name='my_orders'),
+    # API JSON pública
+    path('api/productos/', views.productos_api, name='productos_api'),
 ]

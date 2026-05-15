@@ -104,7 +104,7 @@ def mascota_list(request):
 def mascota_create(request):
     """Registrar una nueva mascota para el usuario."""
     if request.method == 'POST':
-        form = MascotaForm(request.POST)
+        form = MascotaForm(request.POST, request.FILES)
         if form.is_valid():
             mascota = form.save(commit=False)
             mascota.user = request.user
@@ -123,7 +123,7 @@ def mascota_edit(request, pk):
     mascota = get_object_or_404(Mascota, pk=pk, user=request.user)
 
     if request.method == 'POST':
-        form = MascotaForm(request.POST, instance=mascota)
+        form = MascotaForm(request.POST, request.FILES, instance=mascota)
         if form.is_valid():
             form.save()
             messages.success(request, _('"%s" ha sido actualizada.') % mascota.nombre)

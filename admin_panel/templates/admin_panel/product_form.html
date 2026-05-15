@@ -23,7 +23,22 @@
                         >
                         <span class="text-sm text-base-content/60">{{ field.label }}</span>
                     </div>
-                    {% elif 'Select' in field.field.widget.__class__.__name__ %}
+                    {% elif field.field.widget.input_type == 'file' %}
+                    <input
+                        type="file"
+                        name="{{ field.html_name }}"
+                        id="{{ field.id_for_label }}"
+                        class="file-input file-input-bordered w-full {% if field.errors %}file-input-error{% endif %}"
+                    >
+                    {% elif field.field.widget.input_type %}
+                    <input
+                        type="{{ field.field.widget.input_type }}"
+                        name="{{ field.html_name }}"
+                        id="{{ field.id_for_label }}"
+                        class="input input-bordered w-full {% if field.errors %}input-error{% endif %}"
+                        {% if field.value %}value="{{ field.value }}"{% endif %}
+                    >
+                    {% else %}
                     <select name="{{ field.html_name }}" id="{{ field.id_for_label }}"
                             class="select select-bordered w-full {% if field.errors %}select-error{% endif %}">
                         {% for choice_val, choice_label in field.field.choices %}
@@ -32,21 +47,6 @@
                         </option>
                         {% endfor %}
                     </select>
-                    {% elif field.field.widget.input_type == 'file' %}
-                    <input
-                        type="file"
-                        name="{{ field.html_name }}"
-                        id="{{ field.id_for_label }}"
-                        class="file-input file-input-bordered w-full {% if field.errors %}file-input-error{% endif %}"
-                    >
-                    {% else %}
-                    <input
-                        type="{{ field.field.widget.input_type }}"
-                        name="{{ field.html_name }}"
-                        id="{{ field.id_for_label }}"
-                        class="input input-bordered w-full {% if field.errors %}input-error{% endif %}"
-                        {% if field.value %}value="{{ field.value }}"{% endif %}
-                    >
                     {% endif %}
                     {% if field.help_text %}
                     <p class="text-xs text-base-content/40 mt-1">{{ field.help_text }}</p>

@@ -5,10 +5,14 @@
 
 
 def cart_count(request):
-    """Retorna el numero de items en el carrito del usuario autenticado."""
+    """Retorna cart_count y cart_total del usuario autenticado."""
     if request.user.is_authenticated:
         try:
-            return {'cart_count': request.user.cart.get_item_count()}
+            cart = request.user.cart
+            return {
+                'cart_count': cart.get_item_count(),
+                'cart_total': cart.get_total(),
+            }
         except Exception:
-            return {'cart_count': 0}
-    return {'cart_count': 0}
+            return {'cart_count': 0, 'cart_total': 0}
+    return {'cart_count': 0, 'cart_total': 0}
