@@ -44,6 +44,15 @@
                     {% endif %}
                 </a>
 
+                {% if user.is_superuser or user.profile and user.profile.is_admin %}
+                <!-- Panel admin shortcut (solo admins) -->
+                <a href="{% url 'admin_panel:dashboard' %}"
+                   class="btn btn-sm font-semibold ml-1"
+                   style="background:#f59e0b; color:#1c1917;">
+                    {% trans "Panel admin" %}
+                </a>
+                {% endif %}
+
                 <!-- Account dropdown -->
                 <div class="dropdown dropdown-end">
                     <label tabindex="0" class="btn btn-ghost btn-sm text-white/80 hover:text-white flex items-center gap-1">
@@ -61,7 +70,7 @@
                         <li><a href="{% url 'accounts:profile' %}">{% trans "Mi perfil" %}</a></li>
                         <li><a href="{% url 'store:my_orders' %}">{% trans "Mis órdenes" %}</a></li>
                         <li><a href="{% url 'accounts:mascota_list' %}">{% trans "Mis mascotas" %}</a></li>
-                        {% if user.profile and user.profile.is_admin %}
+                        {% if user.is_superuser or user.profile and user.profile.is_admin %}
                         <li><a href="{% url 'admin_panel:dashboard' %}">{% trans "Panel admin" %}</a></li>
                         {% endif %}
                         <div class="divider my-1"></div>
@@ -102,7 +111,7 @@
                         <li><a href="{% url 'accounts:profile' %}">{% trans "Mi perfil" %}</a></li>
                         <li><a href="{% url 'store:my_orders' %}">{% trans "Mis órdenes" %}</a></li>
                         <li><a href="{% url 'accounts:mascota_list' %}">{% trans "Mis mascotas" %}</a></li>
-                        {% if user.profile and user.profile.is_admin %}
+                        {% if user.is_superuser or user.profile and user.profile.is_admin %}
                         <li><a href="{% url 'admin_panel:dashboard' %}">{% trans "Panel admin" %}</a></li>
                         {% endif %}
                         <div class="divider my-1"></div>
