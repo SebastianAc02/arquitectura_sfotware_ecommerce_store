@@ -30,6 +30,20 @@
                 </fieldset>
                 {% endfor %}
 
+                <!-- País — RestCountries -->
+                <fieldset class="fieldset mb-4">
+                    <legend class="fieldset-legend text-sm font-semibold">{% trans "País" %} <span class="text-base-content/40 font-normal">({% trans "opcional" %})</span></legend>
+                    <select name="pais" class="select select-bordered w-full">
+                        <option value="">— {% trans "Selecciona tu país" %} —</option>
+                        {% for code, nombre in countries %}
+                        <option value="{{ code }}">{{ nombre }}</option>
+                        {% endfor %}
+                    </select>
+                    {% if not countries %}
+                    <p class="text-xs text-base-content/40 mt-1">{% trans "No se pudo cargar la lista de países." %}</p>
+                    {% endif %}
+                </fieldset>
+
                 {% if form.non_field_errors %}
                 <div role="alert" class="alert alert-error mb-4">
                     {% for error in form.non_field_errors %}<span>{{ error }}</span>{% endfor %}

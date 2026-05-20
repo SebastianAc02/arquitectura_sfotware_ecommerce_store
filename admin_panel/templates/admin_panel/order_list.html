@@ -41,7 +41,7 @@
                     <td class="text-xs text-base-content/50">{{ order.created_at|date:'d/m/Y H:i' }}</td>
                     <td class="text-xs text-base-content/70">
                         {% for item in order.items.all %}
-                            <div>{{ item.quantity }}× {{ item.product.name }}</div>
+                            <div>{{ item.quantity }}× {{ item.product.display_name }}</div>
                         {% empty %}
                             <span class="text-base-content/30">{% trans "Sin items" %}</span>
                         {% endfor %}

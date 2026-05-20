@@ -11,6 +11,7 @@ urlpatterns = [
     path('producto/<slug:slug>/wishlist-toggle/', views.wishlist_toggle, name='wishlist_toggle'),
     # Carrito
     path('carrito/', views.cart_view, name='cart'),
+    path('carrito/preview/', views.cart_preview, name='cart_preview'),
     path('carrito/agregar/<slug:slug>/', views.cart_add, name='cart_add'),
     path('carrito/eliminar/<int:item_id>/', views.cart_remove, name='cart_remove'),
     path('carrito/actualizar/<int:item_id>/', views.cart_update, name='cart_update'),
@@ -20,4 +21,6 @@ urlpatterns = [
     path('mis-ordenes/', views.my_orders, name='my_orders'),
     # API JSON pública
     path('api/productos/', views.productos_api, name='productos_api'),
+    # Razas de mascotas — TheDogAPI
+    path('razas/', views.razas_view, name='razas'),
 ]

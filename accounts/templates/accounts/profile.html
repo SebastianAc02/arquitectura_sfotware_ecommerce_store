@@ -41,29 +41,49 @@
                 <div class="divider my-6"></div>
 
                 <p class="text-xs font-semibold uppercase tracking-widest text-base-content/40 mb-4">{% trans "Datos de perfil" %}</p>
-                {% for field in profile_form %}
+
+                <!-- Teléfono -->
                 <fieldset class="fieldset mb-4">
-                    <legend class="fieldset-legend text-sm font-semibold">{{ field.label }}</legend>
-                    {% if field.field.widget.input_type == 'textarea' %}
-                    <textarea
-                        name="{{ field.html_name }}"
-                        id="{{ field.id_for_label }}"
-                        class="textarea textarea-bordered w-full {% if field.errors %}textarea-error{% endif %}"
-                        rows="3">{{ field.value|default:'' }}</textarea>
-                    {% else %}
-                    <input
-                        type="{{ field.field.widget.input_type }}"
-                        name="{{ field.html_name }}"
-                        id="{{ field.id_for_label }}"
-                        class="input input-bordered w-full {% if field.errors %}input-error{% endif %}"
-                        {% if field.value %}value="{{ field.value }}"{% endif %}
-                    >
-                    {% endif %}
-                    {% for error in field.errors %}
-                    <p class="text-error text-xs mt-1">{{ error }}</p>
-                    {% endfor %}
+                    <legend class="fieldset-legend text-sm font-semibold">{{ profile_form.phone.label }}</legend>
+                    <input type="text" name="phone" id="{{ profile_form.phone.id_for_label }}"
+                           class="input input-bordered w-full {% if profile_form.phone.errors %}input-error{% endif %}"
+                           value="{{ profile_form.phone.value|default:'' }}">
+                    {% for error in profile_form.phone.errors %}<p class="text-error text-xs mt-1">{{ error }}</p>{% endfor %}
                 </fieldset>
-                {% endfor %}
+
+                <!-- Dirección -->
+                <fieldset class="fieldset mb-4">
+                    <legend class="fieldset-legend text-sm font-semibold">{{ profile_form.address.label }}</legend>
+                    <textarea name="address" id="{{ profile_form.address.id_for_label }}"
+                              class="textarea textarea-bordered w-full {% if profile_form.address.errors %}textarea-error{% endif %}"
+                              rows="3">{{ profile_form.address.value|default:'' }}</textarea>
+                    {% for error in profile_form.address.errors %}<p class="text-error text-xs mt-1">{{ error }}</p>{% endfor %}
+                </fieldset>
+
+                <!-- País — RestCountries -->
+                <fieldset class="fieldset mb-4">
+                    <legend class="fieldset-legend text-sm font-semibold">{{ profile_form.pais.label }}</legend>
+                    <select name="pais" id="{{ profile_form.pais.id_for_label }}"
+                            class="select select-bordered w-full {% if profile_form.pais.errors %}select-error{% endif %}">
+                        <option value="">— {% trans "Selecciona tu país" %} —</option>
+                        {% for code, nombre in countries %}
+                        <option value="{{ code }}" {% if profile_form.pais.value == code %}selected{% endif %}>{{ nombre }}</option>
+                        {% endfor %}
+                    </select>
+                    {% if not countries %}
+                    <p class="text-xs text-base-content/40 mt-1">{% trans "No se pudo cargar la lista de países." %}</p>
+                    {% endif %}
+                    {% for error in profile_form.pais.errors %}<p class="text-error text-xs mt-1">{{ error }}</p>{% endfor %}
+                </fieldset>
+
+                <!-- Saldo virtual (solo lectura) -->
+                <fieldset class="fieldset mb-4">
+                    <legend class="fieldset-legend text-sm font-semibold">{% trans "Saldo virtual" %}</legend>
+                    <div class="input input-bordered w-full flex items-center bg-base-200 text-base-content/60">
+                        ${{ profile.saldo }}
+                    </div>
+                    <p class="text-xs text-base-content/40 mt-1">{% trans "Úsalo para pagar con tarjeta en el checkout." %}</p>
+                </fieldset>
 
                 <div class="flex gap-3 mt-6 flex-wrap">
                     <button type="submit" class="btn font-semibold px-6" style="background:#3b3028; color:white;">

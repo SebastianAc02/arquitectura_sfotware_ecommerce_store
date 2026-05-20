@@ -60,13 +60,19 @@
         {% if products %}
         <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
             {% for product in products %}
-            <div class="card bg-base-100 shadow-sm hover:shadow-md transition-shadow">
+            <div class="card bg-base-100 shadow-sm hover:shadow-lg transition-all duration-200 relative group">
+                <!-- Stretched link: cubre toda la card -->
+                <a href="{% url 'store:product_detail' product.slug %}"
+                   class="absolute inset-0 z-0 rounded-2xl"
+                   aria-label="{{ product.display_name }}"></a>
+
                 {% if product.image %}
-                <figure class="h-44 overflow-hidden">
-                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="w-full h-full object-cover">
+                <figure class="h-44 overflow-hidden rounded-t-2xl">
+                    <img src="{{ product.image.url }}" alt="{{ product.display_name }}"
+                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
                 </figure>
                 {% else %}
-                <figure class="h-44 bg-base-200 flex items-center justify-center">
+                <figure class="h-44 bg-base-200 flex items-center justify-center rounded-t-2xl">
                     <span class="text-sm text-base-content/60">{% trans "Sin imagen" %}</span>
                 </figure>
                 {% endif %}
@@ -74,40 +80,48 @@
                 <div class="card-body p-4">
                     <div class="flex justify-between items-start gap-2">
                         <div>
-                            <h2 class="card-title text-base leading-tight">{{ product.name }}</h2>
-                            <p class="text-xs text-base-content/50">{{ product.category.name }}</p>
+                            <h2 class="card-title text-base leading-tight">{{ product.display_name }}</h2>
+                            <p class="text-xs text-base-content/50">{{ product.category.display_name }}</p>
                         </div>
 
-                        <form method="post" action="{% url 'store:wishlist_toggle' product.slug %}">
-                            {% csrf_token %}
-                            <input type="hidden" name="next" value="{{ request.get_full_path }}">
-                            <button type="submit" class="btn btn-ghost btn-xs" title="Wishlist">
-                                {% if user.is_authenticated and product.id in wishlist_ids %}
-                                    <span class="text-xs text-success">{% trans "En wishlist" %}</span>
-                                {% else %}
-                                    <span class="text-xs text-base-content/60">{% trans "Wishlist" %}</span>
-                                {% endif %}
-                            </button>
-                        </form>
+                        <!-- z-10 para quedar por encima del stretched link -->
+                        <div class="relative z-10">
+                            <form method="post" action="{% url 'store:wishlist_toggle' product.slug %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                                <button type="submit" class="btn btn-ghost btn-xs" title="Wishlist">
+                                    {% if user.is_authenticated and product.id in wishlist_ids %}
+                                        <span class="text-xs text-success">{% trans "En wishlist" %}</span>
+                                    {% else %}
+                                        <span class="text-xs text-base-content/60">{% trans "Wishlist" %}</span>
+                                    {% endif %}
+                                </button>
+                            </form>
+                        </div>
                     </div>
 
                     <p class="text-sm text-base-content/70 line-clamp-2">
-                        {% if product.description %}{{ product.description }}{% else %}{% trans "Producto para tu mascota." %}{% endif %}
+                        {% if product.description %}{{ product.display_description }}{% else %}{% trans "Producto para tu mascota." %}{% endif %}
                     </p>
 
-                    <div class="flex justify-between items-center mt-2">
+                    <div class="mt-2">
                         <span class="font-bold text-lg" style="color:#3b3028;">${{ product.price }}</span>
-                        <a href="{% url 'store:product_detail' product.slug %}" class="btn btn-xs btn-warning">{% trans "Ver detalle" %}</a>
                     </div>
 
                     <div class="mt-2 flex gap-2 flex-wrap">
                         {% if product.id in top_ids %}
                             <span class="badge badge-warning">{% trans "Top vendido" %}</span>
                         {% endif %}
-                        {% if product.stock > 0 %}
-                            <span class="badge badge-outline">{% trans "Stock:" %} {{ product.stock }}</span>
+                        {% if user.is_superuser or user.profile and user.profile.is_admin %}
+                            {% if product.stock > 0 %}
+                                <span class="badge badge-outline">{% trans "Stock:" %} {{ product.stock }}</span>
+                            {% else %}
+                                <span class="badge badge-error">{% trans "Sin stock" %}</span>
+                            {% endif %}
                         {% else %}
-                            <span class="badge badge-error">{% trans "Sin stock" %}</span>
+                            {% if product.stock == 0 %}
+                                <span class="badge badge-sm text-error/70 border border-error/30 bg-transparent">{% trans "Agotado" %}</span>
+                            {% endif %}
                         {% endif %}
                     </div>
                 </div>

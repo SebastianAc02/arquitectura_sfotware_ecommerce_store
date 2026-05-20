@@ -1,30 +1,44 @@
 # Author: Equipo Kibo
+import requests as http_client
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView
 
 from .models import Cart, CartItem, Category, Order, OrderItem, Product, Review, Wishlist
+from .payments import PagoCheque, PagoTarjeta
 from .services import CheckoutService
 
 PAYMENT_CHOICES = [
-    ('tarjeta',       _('Tarjeta de crédito/débito (simulado)')),
-    ('efectivo',      _('Efectivo contra entrega')),
-    ('transferencia', _('Transferencia bancaria')),
+    ('tarjeta', _('Tarjeta virtual (descuenta saldo)')),
+    ('cheque',  _('Cheque (descarga PDF comprobante)')),
 ]
 
 
 def home(request):
     """Vista principal de la tienda — página de inicio."""
+    from .services.recomendaciones import recomendar_para_mascota
+
     products = Product.objects.activos().select_related('category')[:8]
     categories = Category.objects.all()
+
+    recomendaciones_por_mascota = []
+    if request.user.is_authenticated:
+        for mascota in request.user.mascotas.all():
+            recomendaciones_por_mascota.append({
+                'mascota': mascota,
+                'productos': recomendar_para_mascota(mascota, n=6),
+            })
+
     return render(request, 'store/home.html', {
         'products': products,
         'categories': categories,
+        'recomendaciones_por_mascota': recomendaciones_por_mascota,
     })
 
 
@@ -145,9 +159,34 @@ def wishlist_toggle(request, slug):
 # ─────────────────────────────────────────────
 
 @login_required
+def cart_preview(request):
+    """JSON con items del carrito para el panel lateral del navbar."""
+    cart, _cr = Cart.objects.get_or_create(user=request.user)
+    items = cart.items.select_related('product').all()
+    data = []
+    for item in items:
+        data.append({
+            'id':        item.id,
+            'name':      item.product.name,
+            'quantity':  item.quantity,
+            'subtotal':  str(item.product.price * item.quantity),
+            'image_url': (
+                request.build_absolute_uri(item.product.image.url)
+                if item.product.image else None
+            ),
+            'slug': item.product.slug,
+        })
+    return JsonResponse({
+        'items': data,
+        'total': str(cart.get_total()),
+        'count': cart.get_item_count(),
+    })
+
+
+@login_required
 def cart_view(request):
     """Muestra el carrito del usuario con items y total."""
-    cart, _ = Cart.objects.get_or_create(user=request.user)
+    cart, _cr = Cart.objects.get_or_create(user=request.user)
     items = cart.items.select_related('product__category').all()
     return render(request, 'store/cart.html', {
         'cart': cart,
@@ -167,7 +206,7 @@ def cart_add(request, slug):
         messages.warning(request, _('"%s" no tiene stock disponible.') % product.name)
         return redirect('store:product_detail', slug=slug)
 
-    cart, _ = Cart.objects.get_or_create(user=request.user)
+    cart, _cr = Cart.objects.get_or_create(user=request.user)
     item, created = CartItem.objects.get_or_create(cart=cart, product=product)
     if not created:
         item.quantity += 1
@@ -218,28 +257,43 @@ def checkout_view(request):
     POST: valida inputs HTTP y delega la lógica transaccional a CheckoutService.
     La vista sólo maneja HTTP; el servicio maneja negocio (separación de capas).
     """
-    cart, _ = Cart.objects.get_or_create(user=request.user)
+    cart, _cr = Cart.objects.get_or_create(user=request.user)
     items = cart.items.select_related('product').all()
 
     if not items.exists():
         messages.warning(request, _('Tu carrito está vacío.'))
         return redirect('store:cart')
 
+    try:
+        saldo = request.user.profile.saldo
+    except Exception:
+        saldo = 0
+
     if request.method == 'POST':
         shipping_address = request.POST.get('shipping_address', '').strip()
         payment_method = request.POST.get('payment_method', '')
 
+        ctx_error = {'cart': cart, 'items': items, 'payment_choices': PAYMENT_CHOICES, 'saldo': saldo}
+
         if not shipping_address:
             messages.error(request, _('La dirección de envío es obligatoria.'))
-            return render(request, 'store/checkout.html', {
-                'cart': cart, 'items': items, 'payment_choices': PAYMENT_CHOICES,
-            })
+            return render(request, 'store/checkout.html', ctx_error)
 
         if payment_method not in dict(PAYMENT_CHOICES):
             messages.error(request, _('Método de pago no válido.'))
-            return render(request, 'store/checkout.html', {
-                'cart': cart, 'items': items, 'payment_choices': PAYMENT_CHOICES,
-            })
+            return render(request, 'store/checkout.html', ctx_error)
+
+        # DI: instanciar método de pago concreto según elección del usuario
+        if payment_method == 'tarjeta':
+            metodo_pago = PagoTarjeta(request.user)
+            if saldo < cart.get_total():
+                messages.error(
+                    request,
+                    _('Saldo insuficiente. Tu saldo virtual: $%(s)s') % {'s': f'{saldo:.2f}'},
+                )
+                return render(request, 'store/checkout.html', ctx_error)
+        else:
+            metodo_pago = PagoCheque()
 
         try:
             service = CheckoutService()
@@ -251,17 +305,28 @@ def checkout_view(request):
             )
         except ValueError as e:
             messages.error(request, str(e))
-            return render(request, 'store/checkout.html', {
-                'cart': cart, 'items': items, 'payment_choices': PAYMENT_CHOICES,
-            })
+            return render(request, 'store/checkout.html', ctx_error)
 
-        messages.success(request, _('¡Orden creada exitosamente!'))
+        # Procesar pago con la interfaz abstracta (DI en acción)
+        resultado = metodo_pago.procesar_pago(order)
+
+        if payment_method == 'cheque':
+            response = HttpResponse(resultado.getvalue(), content_type='application/pdf')
+            response['Content-Disposition'] = f'attachment; filename="cheque_orden_{order.id}.pdf"'
+            return response
+
+        # tarjeta: mostrar saldo restante y redirigir
+        messages.success(
+            request,
+            _('¡Orden creada! Saldo restante: $%(s)s') % {'s': resultado['saldo_restante']},
+        )
         return redirect('store:order_confirmation', order_id=order.id)
 
     return render(request, 'store/checkout.html', {
         'cart': cart,
         'items': items,
         'payment_choices': PAYMENT_CHOICES,
+        'saldo': saldo,
     })
 
 
@@ -289,6 +354,34 @@ def my_orders(request):
     page_number = request.GET.get('page')
     orders = paginator.get_page(page_number)
     return render(request, 'store/my_orders.html', {'orders': orders})
+
+
+# ─────────────────────────────────────────────
+# RAZAS — TheDogAPI
+# ─────────────────────────────────────────────
+
+def razas_view(request):
+    """
+    GET /razas/
+    Muestra tarjetas de razas de perros usando TheDogAPI.
+    La respuesta se cachea en sesión para evitar múltiples llamadas.
+    """
+    razas = request.session.get('thedogapi_breeds')
+    if not razas:
+        try:
+            resp = http_client.get(
+                'https://api.thedogapi.com/v1/breeds',
+                params={'limit': 12},
+                timeout=5,
+            )
+            if resp.ok:
+                razas = resp.json()[:12]
+                request.session['thedogapi_breeds'] = razas
+            else:
+                razas = []
+        except Exception:
+            razas = []
+    return render(request, 'store/razas.html', {'razas': razas})
 
 
 # ─────────────────────────────────────────────

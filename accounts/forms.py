@@ -31,7 +31,7 @@ class ProfileUpdateForm(forms.ModelForm):
 
     class Meta:
         model = UserProfile
-        fields = ['phone', 'address']
+        fields = ['phone', 'address', 'pais']
 
 
 class _CaseInsensitiveChoiceField(forms.ChoiceField):

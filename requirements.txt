@@ -6,3 +6,4 @@ psycopg2-binary==2.9.9      # Driver para conectar Django con PostgreSQL
 Pillow==10.2.0              # Manejo de imagenes (ImageField en modelos)
 python-decouple==3.8        # Lee variables del .env (SECRET_KEY, DB credentials)
 reportlab==4.1.0            # Generacion de facturas en PDF (funcionalidad especial)
+requests==2.31.0            # Cliente HTTP para consumir APIs externas (TheDogAPI, RestCountries)

@@ -18,8 +18,8 @@
 
         <!-- Left: Logo -->
         <div class="navbar-start">
-            <a href="{% url 'store:home' %}" class="btn btn-ghost text-xl font-bold text-white tracking-widest px-2">
-                KIBO
+            <a href="{% url 'store:home' %}" class="btn btn-ghost px-2 hover:bg-white/10">
+                <span class="text-xl font-bold text-white tracking-widest">KIBO</span>
             </a>
         </div>
 
@@ -32,9 +32,9 @@
             </a>
 
             {% if user.is_authenticated %}
-                <!-- Cart button -->
-                <a href="{% url 'store:cart' %}"
-                   class="btn btn-ghost btn-sm text-white/80 hover:text-white flex items-center gap-1 relative">
+                <!-- Cart button — abre panel lateral -->
+                <button onclick="openCartPanel()"
+                        class="btn btn-ghost btn-sm text-white/80 hover:text-white flex items-center gap-1 relative">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2 9m5-9v9m4-9v9m4-9l2 9"/>
                     </svg>
@@ -42,7 +42,7 @@
                     {% if cart_count %}
                     <span class="badge badge-xs badge-warning absolute -top-0.5 -right-0.5">{{ cart_count }}</span>
                     {% endif %}
-                </a>
+                </button>
 
                 {% if user.is_superuser or user.profile and user.profile.is_admin %}
                 <!-- Panel admin shortcut (solo admins) -->
@@ -156,6 +156,125 @@
             </form>
         </div>
     </footer>
+
+
+{% if user.is_authenticated %}
+<!-- Overlay -->
+<div id="cart-overlay"
+     class="fixed inset-0 z-40 hidden"
+     style="background:rgba(0,0,0,0.45);"
+     onclick="closeCartPanel()"></div>
+
+<!-- Panel lateral del carrito -->
+<div id="cart-panel"
+     class="fixed top-0 right-0 h-full z-50 flex flex-col bg-base-100 shadow-2xl"
+     style="width:22rem; max-width:92vw; transform:translateX(100%); transition:transform .3s cubic-bezier(.4,0,.2,1);">
+
+    <!-- Header -->
+    <div class="flex items-center justify-between px-5 py-4 border-b border-base-200">
+        <h2 class="font-bold text-lg flex items-center gap-2" style="color:#3b3028;">
+            {% trans "Tu Carrito" %}
+            <span id="panel-count" class="badge badge-sm badge-warning">{{ cart_count|default:0 }}</span>
+        </h2>
+        <button onclick="closeCartPanel()" class="btn btn-ghost btn-sm btn-circle">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+        </button>
+    </div>
+
+    <!-- Área de items -->
+    <div id="panel-items" class="flex-1 overflow-y-auto px-5 py-4 space-y-4">
+        <p class="text-center text-base-content/40 py-10 text-sm">{% trans "Cargando..." %}</p>
+    </div>
+
+    <!-- Footer con total y botones -->
+    <div id="panel-footer" class="px-5 py-4 border-t border-base-200" style="display:none;">
+        <div class="flex justify-between items-center mb-4">
+            <span class="font-semibold text-base-content">{% trans "Total" %}</span>
+            <span id="panel-total" class="font-extrabold text-xl" style="color:#3b3028;">$0</span>
+        </div>
+        <a href="{% url 'store:checkout' %}"
+           class="btn btn-warning w-full font-bold text-base shadow-md mb-2">
+            {% trans "Pagar ahora" %}
+        </a>
+        <a href="{% url 'store:cart' %}"
+           class="btn btn-ghost btn-sm w-full text-base-content/60">
+            {% trans "Ver carrito completo" %}
+        </a>
+    </div>
+</div>
+
+<script>
+(function () {
+    var PAW_SVG = '<svg viewBox="0 0 100 100" class="w-6 h-6" fill="#c4b9b2" xmlns="http://www.w3.org/2000/svg"><circle cx="32" cy="20" r="10"/><circle cx="68" cy="20" r="10"/><circle cx="15" cy="47" r="9"/><circle cx="85" cy="47" r="9"/><ellipse cx="50" cy="72" rx="22" ry="20"/></svg>';
+
+    window.openCartPanel = function () {
+        document.getElementById('cart-panel').style.transform = 'translateX(0)';
+        document.getElementById('cart-overlay').classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+        loadCartItems();
+    };
+
+    window.closeCartPanel = function () {
+        document.getElementById('cart-panel').style.transform = 'translateX(100%)';
+        document.getElementById('cart-overlay').classList.add('hidden');
+        document.body.style.overflow = '';
+    };
+
+    function fmt(val) {
+        return '$' + parseFloat(val).toLocaleString('es-CO', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+    }
+
+    function loadCartItems() {
+        var itemsEl   = document.getElementById('panel-items');
+        var footerEl  = document.getElementById('panel-footer');
+        var countEl   = document.getElementById('panel-count');
+        var totalEl   = document.getElementById('panel-total');
+
+        itemsEl.innerHTML = '<p class="text-center text-base-content/40 py-10 text-sm">{% trans "Cargando..." %}</p>';
+        footerEl.style.display = 'none';
+
+        fetch('/carrito/preview/', { credentials: 'same-origin' })
+            .then(function (r) { return r.json(); })
+            .then(function (data) {
+                countEl.textContent = data.count;
+
+                if (data.items.length === 0) {
+                    itemsEl.innerHTML =
+                        '<div class="flex flex-col items-center py-14 gap-3 text-base-content/30">' +
+                            PAW_SVG +
+                            '<p class="text-sm">{% trans "Tu carrito está vacío" %}</p>' +
+                        '</div>';
+                    footerEl.style.display = 'none';
+                    return;
+                }
+
+                totalEl.textContent = fmt(data.total);
+                footerEl.style.display = '';
+
+                itemsEl.innerHTML = data.items.map(function (item) {
+                    var img = item.image_url
+                        ? '<img src="' + item.image_url + '" alt="' + item.name + '" class="w-14 h-14 object-cover rounded-xl flex-shrink-0">'
+                        : '<div class="w-14 h-14 bg-base-200 rounded-xl flex-shrink-0 flex items-center justify-center">' + PAW_SVG + '</div>';
+
+                    return '<div class="flex gap-3 items-center">' +
+                        img +
+                        '<div class="flex-1 min-w-0">' +
+                            '<p class="text-sm font-semibold leading-tight line-clamp-2 text-base-content">' + item.name + '</p>' +
+                            '<p class="text-xs text-base-content/50 mt-0.5">x' + item.quantity + '</p>' +
+                        '</div>' +
+                        '<span class="text-sm font-bold flex-shrink-0" style="color:#3b3028;">' + fmt(item.subtotal) + '</span>' +
+                    '</div>';
+                }).join('<div class="divider my-1"></div>');
+            })
+            .catch(function () {
+                itemsEl.innerHTML = '<p class="text-center text-error text-sm py-8">{% trans "Error al cargar el carrito." %}</p>';
+            });
+    }
+}());
+</script>
+{% endif %}
 
 </body>
 </html>

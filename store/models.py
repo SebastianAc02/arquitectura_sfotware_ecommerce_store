@@ -7,7 +7,7 @@ from django.db import models
 from django.db.models import Sum
 from django.db.models.functions import Coalesce
 from django.contrib.auth.models import User
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy as _, get_language
 
 
 class Category(models.Model):
@@ -16,6 +16,7 @@ class Category(models.Model):
     Slug permite URLs limpias: /catalogo/alimentos/ en vez de /catalogo/1/
     """
     name = models.CharField(max_length=100)
+    name_en = models.CharField(max_length=100, blank=True)
     slug = models.SlugField(unique=True)
     description = models.TextField(blank=True)
     image = models.ImageField(upload_to='categories/', blank=True, null=True)
@@ -25,6 +26,13 @@ class Category(models.Model):
         ordering = ['name']
 
     def __str__(self):
+        return self.name
+
+    @property
+    def display_name(self):
+        lang = get_language() or 'es'
+        if lang.startswith('en') and self.name_en:
+            return self.name_en
         return self.name
 
 
@@ -92,8 +100,10 @@ class Product(models.Model):
 
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products')
     name = models.CharField(max_length=200)
+    name_en = models.CharField(max_length=200, blank=True)
     slug = models.SlugField(unique=True)
     description = models.TextField(blank=True)
+    description_en = models.TextField(blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     stock = models.PositiveIntegerField(default=0)
     image = models.ImageField(upload_to='products/', blank=True, null=True)
@@ -103,6 +113,10 @@ class Product(models.Model):
                                     help_text='perro, gato, ave, todos')
     etapa_vida = models.CharField(max_length=50, blank=True,
                                    help_text='cachorro, adulto, senior, todos')
+    peso_min_kg = models.DecimalField(max_digits=5, decimal_places=1, null=True, blank=True,
+                                      help_text='Peso mínimo de mascota recomendado (kg)')
+    peso_max_kg = models.DecimalField(max_digits=5, decimal_places=1, null=True, blank=True,
+                                      help_text='Peso máximo de mascota recomendado (kg)')
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -114,6 +128,20 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+    @property
+    def display_name(self):
+        lang = get_language() or 'es'
+        if lang.startswith('en') and self.name_en:
+            return self.name_en
+        return self.name
+
+    @property
+    def display_description(self):
+        lang = get_language() or 'es'
+        if lang.startswith('en') and self.description_en:
+            return self.description_en
+        return self.description
 
     def is_available(self):
         """Verifica si el producto esta activo y tiene stock."""

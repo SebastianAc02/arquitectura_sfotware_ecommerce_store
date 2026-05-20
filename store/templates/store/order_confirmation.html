@@ -7,7 +7,9 @@
     <div class="card bg-base-100 shadow-md w-full max-w-2xl">
         <div class="card-body p-8 text-center">
 
-            <div class="text-6xl mb-4">✅</div>
+            <div class="flex justify-center mb-4">
+                <svg class="w-16 h-16 text-success" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
             <h1 class="text-2xl font-bold mb-1" style="color:#3b3028;">{% trans "¡Orden confirmada!" %}</h1>
             <p class="text-base-content/50 mb-6">
                 {% trans "Orden" %} <strong>#{{ order.id }}</strong> {% trans "recibida el" %} {{ order.created_at|date:'d/m/Y H:i' }}
@@ -18,7 +20,7 @@
                 <div class="space-y-2">
                     {% for item in order.items.all %}
                     <div class="flex justify-between text-sm">
-                        <span>{{ item.product.name }} ×{{ item.quantity }}</span>
+                        <span>{{ item.product.display_name }} ×{{ item.quantity }}</span>
                         <span class="font-semibold">${{ item.get_subtotal }}</span>
                     </div>
                     {% endfor %}

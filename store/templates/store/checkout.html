@@ -26,15 +26,28 @@
 
                 <fieldset class="fieldset mb-6">
                     <legend class="fieldset-legend font-semibold">{% trans "Método de pago" %}</legend>
-                    <select name="payment_method" class="select select-bordered w-full" required>
+                    <select name="payment_method" id="payment_method" class="select select-bordered w-full" required>
                         {% for value, label in payment_choices %}
                         <option value="{{ value }}">{{ label }}</option>
                         {% endfor %}
                     </select>
+                    <div id="saldo-hint" class="hidden mt-2 p-3 rounded-lg bg-base-200 text-sm">
+                        {% trans "Tu saldo virtual disponible:" %} <span class="font-bold" style="color:#3b3028;">${{ saldo }}</span>
+                    </div>
                     <p class="text-xs text-base-content/40 mt-1">
                         {% trans "* Entorno de demostración — no se procesará ningún cobro real." %}
                     </p>
                 </fieldset>
+
+                <script>
+                (function () {
+                    var sel = document.getElementById('payment_method');
+                    var hint = document.getElementById('saldo-hint');
+                    function toggle() { hint.classList.toggle('hidden', sel.value !== 'tarjeta'); }
+                    sel.addEventListener('change', toggle);
+                    toggle();
+                })();
+                </script>
 
                 <button type="submit" class="btn w-full font-semibold text-base"
                         style="background:#3b3028; color:white;">
@@ -54,15 +67,15 @@
                 {% for item in items %}
                 <div class="flex items-center gap-3">
                     {% if item.product.image %}
-                    <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}"
+                    <img src="{{ item.product.image.url }}" alt="{{ item.product.display_name }}"
                          class="w-12 h-12 object-cover rounded-lg flex-shrink-0">
                     {% else %}
                     <div class="w-12 h-12 bg-base-200 rounded-lg flex items-center justify-center flex-shrink-0">
-                        <span>🐾</span>
+                    <svg class="w-5 h-5 text-base-content/30" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><circle cx="32" cy="20" r="10"/><circle cx="68" cy="20" r="10"/><circle cx="15" cy="47" r="9"/><circle cx="85" cy="47" r="9"/><ellipse cx="50" cy="72" rx="22" ry="20"/></svg>
                     </div>
                     {% endif %}
                     <div class="flex-1 min-w-0">
-                        <p class="font-medium text-sm line-clamp-1">{{ item.product.name }}</p>
+                        <p class="font-medium text-sm line-clamp-1">{{ item.product.display_name }}</p>
                         <p class="text-xs text-base-content/50">×{{ item.quantity }}</p>
                     </div>
                     <p class="font-semibold text-sm">${{ item.get_subtotal }}</p>

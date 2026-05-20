@@ -1,6 +1,8 @@
 # Author: Equipo Kibo
 # Vistas del dominio AUTH — login, logout, registro, perfil, mascotas
 
+import requests as http_client
+
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
@@ -13,23 +15,59 @@ from .forms import MascotaForm, ProfileUpdateForm, RegisterForm, UserUpdateForm
 from .models import Mascota, UserProfile
 
 
+def _get_countries(request):
+    """Retorna lista de (cca2, nombre_es) de todos los países, cacheada en sesión."""
+    countries = request.session.get('restcountries')
+    if not countries:
+        try:
+            resp = http_client.get(
+                'https://restcountries.com/v3.1/all',
+                params={'fields': 'name,cca2,translations'},
+                timeout=5,
+            )
+            if resp.ok:
+                data = resp.json()
+                countries = sorted(
+                    [
+                        (
+                            c['cca2'],
+                            c.get('translations', {}).get('spa', {}).get('common') or c['name']['common'],
+                        )
+                        for c in data
+                    ],
+                    key=lambda x: x[1],
+                )
+                request.session['restcountries'] = countries
+            else:
+                countries = []
+        except Exception:
+            countries = []
+    return countries
+
+
 def register_view(request):
     """Registro de usuarios cliente (is_admin=False por defecto)."""
     if request.user.is_authenticated:
         return redirect('store:home')
 
+    countries = _get_countries(request)
+
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
-            UserProfile.objects.get_or_create(user=user)
+            profile, _cr = UserProfile.objects.get_or_create(user=user)
+            pais = request.POST.get('pais', '')
+            if pais:
+                profile.pais = pais
+                profile.save()
             login(request, user)
             messages.success(request, _('Cuenta creada correctamente. ¡Bienvenido a Kibo!'))
             return redirect('store:home')
     else:
         form = RegisterForm()
 
-    return render(request, 'accounts/register.html', {'form': form})
+    return render(request, 'accounts/register.html', {'form': form, 'countries': countries})
 
 
 def login_view(request):
@@ -63,7 +101,7 @@ def logout_view(request):
 def profile_view(request):
     """Perfil editable del usuario autenticado."""
     user: User = request.user
-    profile, _ = UserProfile.objects.get_or_create(user=user)
+    profile, _cr = UserProfile.objects.get_or_create(user=user)
 
     if request.method == 'POST':
         user_form = UserUpdateForm(request.POST, instance=user)
@@ -78,6 +116,7 @@ def profile_view(request):
         user_form = UserUpdateForm(instance=user)
         profile_form = ProfileUpdateForm(instance=profile)
 
+    countries = _get_countries(request)
     return render(
         request,
         'accounts/profile.html',
@@ -85,6 +124,7 @@ def profile_view(request):
             'user_form': user_form,
             'profile_form': profile_form,
             'profile': profile,
+            'countries': countries,
         },
     )
 

@@ -8,6 +8,35 @@ from .services import CheckoutService
 from .services.notifications import MockNotificationService
 
 
+class RequisitosEntregable2TestCase(TestCase):
+    """Pruebas unitarias requeridas por el Entregable #2."""
+
+    def setUp(self):
+        category = Category.objects.create(name='Alimentos', slug='alimentos-req2')
+        self.product_sin_stock = Product.objects.create(
+            category=category,
+            name='Producto Sin Stock',
+            slug='producto-sin-stock-req2',
+            price=Decimal('20.00'),
+            stock=0,
+        )
+        self.product_con_precio = Product.objects.create(
+            category=category,
+            name='Producto Con Precio',
+            slug='producto-con-precio-req2',
+            price=Decimal('35.99'),
+            stock=10,
+        )
+
+    def test_producto_sin_stock_no_agrega_carrito(self):
+        """Un producto con stock=0 no puede añadirse al carrito."""
+        self.assertFalse(self.product_sin_stock.is_available())
+
+    def test_precio_producto_mayor_cero(self):
+        """El precio de cualquier producto debe ser mayor a 0."""
+        self.assertGreater(self.product_con_precio.price, Decimal('0'))
+
+
 class ProductStockTestCase(TestCase):
     """Pruebas de la lógica de negocio del modelo Product."""
 

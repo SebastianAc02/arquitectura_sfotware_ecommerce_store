@@ -17,6 +17,8 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     phone = models.CharField(max_length=20, blank=True)
     address = models.TextField(blank=True)
+    pais = models.CharField(max_length=10, blank=True, verbose_name=_('País'))
+    saldo = models.DecimalField(max_digits=10, decimal_places=2, default=1000, verbose_name=_('Saldo virtual'))
     # is_admin controla el rol: True = administrador, False = cliente
     # Las views del admin_panel verifican este campo antes de dar acceso
     is_admin = models.BooleanField(default=False)

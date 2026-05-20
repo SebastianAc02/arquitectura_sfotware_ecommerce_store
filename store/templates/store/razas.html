@@ -1,0 +1,54 @@
+{% extends 'base_public.html' %}
+{% load i18n %}
+{% block title %}{% trans "Razas de mascotas" %} — Kibo{% endblock %}
+
+{% block content %}
+<div class="mb-6">
+    <h1 class="text-2xl font-bold" style="color:#3b3028;">{% trans "Razas de perros" %}</h1>
+    <p class="text-base-content/60 mt-1">{% trans "Información sobre las razas más populares." %}</p>
+</div>
+
+{% if razas %}
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+    {% for raza in razas %}
+    <div class="card bg-base-100 shadow-sm hover:shadow-md transition-shadow">
+        {% if raza.image.url %}
+        <figure class="h-48 overflow-hidden">
+            <img src="{{ raza.image.url }}"
+                 alt="{{ raza.name }}"
+                 class="w-full h-full object-cover">
+        </figure>
+        {% endif %}
+        <div class="card-body p-5">
+            <h2 class="card-title text-lg" style="color:#3b3028;">{{ raza.name }}</h2>
+
+            {% if raza.bred_for %}
+            <p class="text-sm text-base-content/60 line-clamp-2">{{ raza.bred_for }}</p>
+            {% endif %}
+
+            <div class="text-xs text-base-content/50 mt-2 space-y-1">
+                {% if raza.temperament %}
+                <p><span class="font-semibold">{% trans "Temperamento:" %}</span> {{ raza.temperament }}</p>
+                {% endif %}
+                {% if raza.life_span %}
+                <p><span class="font-semibold">{% trans "Esperanza de vida:" %}</span> {{ raza.life_span }}</p>
+                {% endif %}
+                {% if raza.weight.metric %}
+                <p><span class="font-semibold">{% trans "Peso:" %}</span> {{ raza.weight.metric }} kg</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% else %}
+<div class="card bg-base-100 shadow-sm">
+    <div class="card-body text-center py-16">
+        <span class="text-5xl mb-4">🐕</span>
+        <p class="text-lg font-medium text-base-content/50">{% trans "No se pudo cargar la información de razas en este momento." %}</p>
+        <p class="text-sm text-base-content/40 mt-1">{% trans "Intenta de nuevo más tarde." %}</p>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
